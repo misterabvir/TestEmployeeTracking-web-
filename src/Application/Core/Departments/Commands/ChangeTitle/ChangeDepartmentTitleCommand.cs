@@ -1,7 +1,7 @@
-using Core.Abstractions.Common;
-using Core.Common;
-using Core.Departments.Requests;
+using ApplicationCore.Abstractions.Common;
+using Domain.Common;
+using ApplicationCore.Departments.Responses;
 
-namespace Core.Departments.Commands.ChangeTitle;
+namespace ApplicationCore.Departments.Commands.ChangeTitle;
 
 public record ChangeDepartmentTitleCommand(ChangeDepartmentTitleCommandRequest Request) : ICommand<Result<DepartmentResultResponse>>;

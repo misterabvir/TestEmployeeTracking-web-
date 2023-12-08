@@ -1,4 +1,4 @@
-﻿namespace Core.Common;
+﻿namespace Domain.Common;
 
 public record Error
 {

@@ -1,9 +1,9 @@
-using Core.Common;
-using Core.Employees.Requests;
-using Core.Employees.Errors;
+using Domain.Common;
+using ApplicationCore.Employees.Responses;
+using ApplicationCore.Employees.Errors;
 using MediatR;
 
-namespace Core.Employees.Commands.ChangeDepartment;
+namespace ApplicationCore.Employees.Commands.ChangeDepartment;
 
 public class ChangeDepartmentCommandBehavior : IPipelineBehavior<ChangeDepartmentCommand, Result<EmployeeResultResponse>>
 {

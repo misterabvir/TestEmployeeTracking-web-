@@ -1,6 +1,6 @@
 ﻿using Entities.Abstractions;
 
-namespace Core.Abstractions.Repositories;
+namespace ApplicationCore.Abstractions.Repositories;
 
 public interface IRepository<T> 
 { 

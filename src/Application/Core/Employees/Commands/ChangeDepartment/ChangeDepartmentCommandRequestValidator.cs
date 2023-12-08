@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Core.Employees.Commands.ChangeDepartment;
+namespace ApplicationCore.Employees.Commands.ChangeDepartment;
 
 public class ChangeDepartmentCommandRequestValidator : AbstractValidator<ChangeDepartmentCommandRequest>
 {

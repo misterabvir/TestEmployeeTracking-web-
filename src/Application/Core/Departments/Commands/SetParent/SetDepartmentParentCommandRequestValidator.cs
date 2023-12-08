@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Core.Departments.Commands.SetParent;
+namespace ApplicationCore.Departments.Commands.SetParent;
 
 public class SetDepartmentParentCommandRequestValidator : AbstractValidator<SetDepartmentParentCommandRequest>
 {

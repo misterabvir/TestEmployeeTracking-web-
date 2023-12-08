@@ -1,16 +1,16 @@
-﻿using Core.Abstractions.Common;
-using Core.Abstractions.Repositories;
-using Core.Abstractions.Services;
-using Core.Common;
-using Core.Employees.Requests;
-using Core.Employees.Errors;
+﻿using ApplicationCore.Abstractions.Common;
+using ApplicationCore.Abstractions.Repositories;
+using ApplicationCore.Abstractions.Services;
+using Domain.Common;
+using ApplicationCore.Employees.Responses;
+using ApplicationCore.Employees.Errors;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
 using Entities.Employees;
 using Entities.Employees.ValueObjects;
 using Entities.Histories;
 
-namespace Core.Employees.Commands.Create;
+namespace ApplicationCore.Employees.Commands.Create;
 
 public class CreateEmployeeCommandHandler : 
     ICommandHandler<CreateEmployeeCommand, Result<EmployeeResultResponse>>

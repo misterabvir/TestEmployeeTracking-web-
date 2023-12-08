@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option csharp_namespace = "Grpc";
+
+package employees_proto;
+
+service EmployeesProto {    
+    rpc GetAll (AllEmployeeRequest) returns (stream EmployeeResponse);
+    rpc GetById (ByIdEmployeeRequest) returns (EmployeeResponse);
+    rpc Create (CreateEmployeeRequest) returns (EmployeeResponse);
+    rpc ChangePersonalData (ChangePersonalDataEmployeeRequest) returns (EmployeeResponse);
+    rpc ChangeDepartment (ChangeDepartmentEmployeeRequest) returns (EmployeeResponse);
+    rpc Delete (DeleteEmployeeRequest) returns (EmployeeResponse);
+  }
+
+  message AllEmployeeRequest {}
+
+  message ByIdEmployeeRequest{
+    string id = 1;
+  }
+
+  message CreateEmployeeRequest{
+      string lastname = 1;
+      string firstname = 2;
+      string department_id = 3;
+  }
+
+  message ChangePersonalDataEmployeeRequest{
+    string id = 1;
+    string new_lastname = 2;
+    string new_firstname = 3;
+  }
+
+  message ChangeDepartmentEmployeeRequest{
+    string id = 1;
+    string new_department_id = 2;
+  } 
+
+  message DeleteEmployeeRequest{
+    string id = 1;
+  }
+
+  message EmployeeResponse{
+    string id = 1;
+    string lastname = 2;
+    string firstname = 3;
+    string department_id = 4;
+  }

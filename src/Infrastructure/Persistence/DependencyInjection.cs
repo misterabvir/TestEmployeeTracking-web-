@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Core.Abstractions.Repositories;
+using ApplicationCore.Abstractions.Repositories;
 using Persistence.Common;
 using Persistence.Repositories;
 namespace Persistence;

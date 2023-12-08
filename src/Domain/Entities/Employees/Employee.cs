@@ -38,12 +38,12 @@ public sealed class Employee : Entity<EmployeeId>
         };
     }
 
-    public void ChangeDepartment(DepartmentId departmentId)
+    internal void ChangeDepartment(DepartmentId departmentId)
     {
         DepartmentId = departmentId;
     }
 
-    public void ChangePersonalData(LastName lastName, FirstName firstName)
+    internal void ChangePersonalData(LastName lastName, FirstName firstName)
     {
         LastName = lastName;
         FirstName = firstName;

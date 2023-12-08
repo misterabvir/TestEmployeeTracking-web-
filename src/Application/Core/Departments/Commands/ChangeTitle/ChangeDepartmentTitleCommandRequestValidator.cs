@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Core.Departments.Commands.ChangeTitle;
+namespace ApplicationCore.Departments.Commands.ChangeTitle;
 
 public class ChangeDepartmentTitleCommandRequestValidator : AbstractValidator<ChangeDepartmentTitleCommandRequest>
 {

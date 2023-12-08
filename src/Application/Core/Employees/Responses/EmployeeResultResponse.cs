@@ -1,15 +1,15 @@
 ﻿using Entities.Employees;
 
-namespace Core.Employees.Requests;
+namespace ApplicationCore.Employees.Responses;
 
-public class EmployeeResultResponse
+public sealed class EmployeeResultResponse
 {
     private EmployeeResultResponse() { }
     
-    public Guid Id { get; set; }
-    public string LastName { get; set; } = null!;
-    public string FirstName { get; set; } = null!;
-    public Guid DepartmentId { get; set; }
+    public Guid Id { get; private set; }
+    public string LastName { get; private  set; } = null!;
+    public string FirstName { get; private  set; } = null!;
+    public Guid DepartmentId { get; private  set; }
 
     internal static EmployeeResultResponse FromDomain(Employee employee)
     {

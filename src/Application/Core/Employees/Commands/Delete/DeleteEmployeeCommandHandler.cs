@@ -1,11 +1,11 @@
-using Core.Abstractions.Common;
-using Core.Abstractions.Repositories;
-using Core.Common;
-using Core.Employees.Errors;
+using ApplicationCore.Abstractions.Common;
+using ApplicationCore.Abstractions.Repositories;
+using Domain.Common;
+using ApplicationCore.Employees.Errors;
 using Entities.Employees;
 using Entities.Employees.ValueObjects;
 
-namespace Core.Employees.Commands.Delete;
+namespace ApplicationCore.Employees.Commands.Delete;
 
 public class DeleteEmployeeCommandHandler : 
     ICommandHandler<DeleteEmployeeCommand, Result>

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Core.Departments.Queries.GetById;
+namespace ApplicationCore.Departments.Queries.GetById;
 
 public class GetDepartmentByIdQueryRequestValidator : AbstractValidator<GetDepartmentByIdQueryRequest>
 {

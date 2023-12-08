@@ -1,9 +1,9 @@
-using Core.Common;
-using Core.Employees.Requests;
-using Core.Employees.Errors;
+using Domain.Common;
+using ApplicationCore.Employees.Responses;
+using ApplicationCore.Employees.Errors;
 using MediatR;
 
-namespace Core.Employees.Commands.ChangePersonalData;
+namespace ApplicationCore.Employees.Commands.ChangePersonalData;
 
 public class ChangePersonalDataCommandHandlerBehavior : IPipelineBehavior<ChangePersonalDataCommand, Result<EmployeeResultResponse>>
 {

@@ -1,6 +1,6 @@
-using Core.Abstractions.Common;
-using Core.Common;
+using ApplicationCore.Abstractions.Common;
+using Domain.Common;
 
-namespace Core.Employees.Commands.Delete;
+namespace ApplicationCore.Employees.Commands.Delete;
 
 public record DeleteEmployeeCommand(DeleteEmployeeCommandRequest Request) : ICommand<Result>;

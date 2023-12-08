@@ -1,8 +1,8 @@
-using Core.Common;
-using Core.Employees.Errors;
+using Domain.Common;
+using ApplicationCore.Employees.Errors;
 using MediatR;
 
-namespace Core.Employees.Commands.Delete;
+namespace ApplicationCore.Employees.Commands.Delete;
 
 public class DeleteEmployeeCommandHandlerBehavior : IPipelineBehavior<DeleteEmployeeCommand, Result>
 {

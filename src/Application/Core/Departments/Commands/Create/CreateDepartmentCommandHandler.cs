@@ -1,11 +1,12 @@
-using Core.Abstractions.Common;
-using Core.Abstractions.Repositories;
-using Core.Common;
-using Core.Departments.Requests;
+using ApplicationCore.Abstractions.Common;
+using ApplicationCore.Abstractions.Repositories;
+using Domain.Common;
+using ApplicationCore.Departments.Responses;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
+using ApplicationCore.Departments.Errors;
 
-namespace Core.Departments.Commands.Create;
+namespace ApplicationCore.Departments.Commands.Create;
 
 public class CreateDepartmentCommandHandler : ICommandHandler<CreateDepartmentCommand, Result<DepartmentResultResponse>>
 {
@@ -18,8 +19,20 @@ public class CreateDepartmentCommandHandler : ICommandHandler<CreateDepartmentCo
 
     public async Task<Result<DepartmentResultResponse>> Handle(CreateDepartmentCommand command, CancellationToken cancellationToken)
     {
-        var departmentId = command.Request.ParentDepartmentId is null ? null : DepartmentId.Create(command.Request.ParentDepartmentId.Value);
-        Department department = Department.Create(Title.Create(command.Request.Title), departmentId);
+        Title title = Title.Create(command.Request.Title);
+        DepartmentId? parentId = null;
+        Department? department;
+        if (command.Request.ParentDepartmentId is not null)
+        {
+            parentId = DepartmentId.Create(command.Request.ParentDepartmentId.Value);
+        }
+        
+        department = await _departmentRepository.GetByNameAndParentId(title, parentId, cancellationToken);
+        if (department is not null)
+        {
+            return DepartmentErrors.AlreadyExist(department.Id.Value);
+        }
+        department = Department.Create(title, parentId);
         await _departmentRepository.Create(department, cancellationToken);
         return Result<DepartmentResultResponse>.Success(DepartmentResultResponse.FromDomain(department));
     }

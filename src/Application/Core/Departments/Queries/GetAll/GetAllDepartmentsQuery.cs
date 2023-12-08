@@ -1,8 +1,8 @@
-using Core.Abstractions.Common;
-using Core.Common;
-using Core.Departments.Requests;
+using ApplicationCore.Abstractions.Common;
+using Domain.Common;
+using ApplicationCore.Departments.Responses;
 
-namespace Core.Departments.Queries.GetAll;
+namespace ApplicationCore.Departments.Queries.GetAll;
 
 public class GetAllDepartmentsQuery : IQuery<Result<IEnumerable<DepartmentResultResponse>>>
 {

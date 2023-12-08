@@ -1,9 +1,9 @@
-﻿using Core.Common;
-using Core.Employees.Errors;
-using Core.Employees.Requests;
+﻿using Domain.Common;
+using ApplicationCore.Employees.Errors;
+using ApplicationCore.Employees.Responses;
 using MediatR;
 
-namespace Core.Employees.Queries.GetById;
+namespace ApplicationCore.Employees.Queries.GetById;
 
 public sealed class GetEmployeeByIdQueryHandlerBehavior
     : IPipelineBehavior<GetEmployeeByIdQuery, Result<EmployeeResultResponse>>

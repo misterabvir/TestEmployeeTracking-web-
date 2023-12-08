@@ -1,20 +1,22 @@
-using Core.Abstractions.Common;
-using Core.Abstractions.Repositories;
-using Core.Common;
-using Core.Departments.Errors;
-using Core.Departments.Requests;
+using ApplicationCore.Abstractions.Common;
+using ApplicationCore.Abstractions.Repositories;
+using Domain.Common;
+using ApplicationCore.Departments.Errors;
+using ApplicationCore.Departments.Responses;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
+using Entities.Abstractions.Services;
 
-namespace Core.Departments.Commands.SetParent;
+namespace ApplicationCore.Departments.Commands.SetParent;
 
 public class SetDepartmentParentCommandHandler : ICommandHandler<SetDepartmentParentCommand, Result<DepartmentResultResponse>>
 {
     private readonly IDepartmentRepository _departmentRepository;
-
-    public SetDepartmentParentCommandHandler(IDepartmentRepository departmentRepository)
+    private readonly IDepartmentService _departmentService;
+    public SetDepartmentParentCommandHandler(IDepartmentRepository departmentRepository, IDepartmentService departmentService)
     {
         _departmentRepository = departmentRepository;
+        _departmentService = departmentService;
     }
 
     public async Task<Result<DepartmentResultResponse>> Handle(SetDepartmentParentCommand command, CancellationToken cancellationToken)
@@ -42,7 +44,11 @@ public class SetDepartmentParentCommandHandler : ICommandHandler<SetDepartmentPa
             }
         }
 
-        department.SetParent(parentId);
+        if(_departmentService.ChangeParentDepartment(department, parentId).IsFailure)
+        {
+            return DepartmentErrors.Unexpected(departmentId.Value);   //TODO refactor
+        }
+        
         await _departmentRepository.Update(department, cancellationToken);
         return Result<DepartmentResultResponse>.Success(DepartmentResultResponse.FromDomain(department));
     }

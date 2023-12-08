@@ -1,7 +1,9 @@
-﻿using Core.Abstractions.Services;
+﻿using Entities.Abstractions.Services;
+using Entities.Departments;
+using Entities.Employees;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Core;
+namespace ApplicationCore;
 
 public static class DependencyInjection
 {
@@ -9,7 +11,6 @@ public static class DependencyInjection
     {
         services.AddMediatR(options =>
             options.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
-
         return services;
     }
 }

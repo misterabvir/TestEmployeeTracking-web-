@@ -11,24 +11,24 @@ internal class DbService
         _connectionString = connectionString;
     }
 
-    public async Task ExecuteAsync(string sql, object model)
+    public async Task ExecuteAsync(CommandDefinition command)
     {
         using SqlConnection connection = new(_connectionString);
         await connection.OpenAsync();
-        await connection.ExecuteAsync(sql, model);
+        await connection.ExecuteAsync(command);
     }
 
-    public async Task<IEnumerable<T>> QueryAsync<T>(string sql, object? model = null)
+    public async Task<IEnumerable<T>> QueryAsync<T>(CommandDefinition command)
     {
         using SqlConnection connection = new(_connectionString);
         await connection.OpenAsync();
-        return await connection.QueryAsync<T>(sql, model);
+        return await connection.QueryAsync<T>(command);
     }
 
-    public async Task<T?> QueryFirstOrDefaultAsync<T>(string sql, object model)
+    public async Task<T?> QueryFirstOrDefaultAsync<T>(CommandDefinition command)
     {
         using SqlConnection connection = new(_connectionString);
         await connection.OpenAsync();
-        return await connection.QueryFirstOrDefaultAsync<T>(sql, model);
+        return await connection.QueryFirstOrDefaultAsync<T>(command);
     }
 }

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Core.Departments.Commands.Delete;
+namespace ApplicationCore.Departments.Commands.Delete;
 
 public class DeleteDepartmentCommandRequestValidator : AbstractValidator<DeleteDepartmentCommandRequest>
 {

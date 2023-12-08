@@ -1,4 +1,4 @@
-﻿namespace Core.Abstractions.Services;
+﻿namespace ApplicationCore.Abstractions.Services;
 
 public interface IDateTimeService
 {

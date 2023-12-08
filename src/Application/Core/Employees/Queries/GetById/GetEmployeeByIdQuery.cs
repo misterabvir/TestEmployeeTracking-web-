@@ -1,8 +1,8 @@
-﻿using Core.Abstractions.Common;
-using Core.Common;
-using Core.Employees.Requests;
+﻿using ApplicationCore.Abstractions.Common;
+using ApplicationCore.Employees.Responses;
+using Domain.Common;
 
-namespace Core.Employees.Queries.GetById;
+namespace ApplicationCore.Employees.Queries.GetById;
 
 public record GetEmployeeByIdQuery(GetEmployeeByIdQueryRequest Request) : IQuery<Result<EmployeeResultResponse>>;
 

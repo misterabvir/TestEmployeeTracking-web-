@@ -1,7 +1,7 @@
-using Core.Abstractions.Common;
-using Core.Common;
-using Core.Employees.Requests;
+using ApplicationCore.Abstractions.Common;
+using Domain.Common;
+using ApplicationCore.Employees.Responses;
 
-namespace Core.Employees.Commands.ChangeDepartment;
+namespace ApplicationCore.Employees.Commands.ChangeDepartment;
 
 public record ChangeDepartmentCommand(ChangeDepartmentCommandRequest Request) : ICommand<Result<EmployeeResultResponse>>;

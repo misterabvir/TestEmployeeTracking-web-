@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Core.Employees.Commands.ChangePersonalData;
+namespace ApplicationCore.Employees.Commands.ChangePersonalData;
 
 public class ChangePersonalDataCommandRequestValidator : AbstractValidator<ChangePersonalDataCommandRequest>
 {

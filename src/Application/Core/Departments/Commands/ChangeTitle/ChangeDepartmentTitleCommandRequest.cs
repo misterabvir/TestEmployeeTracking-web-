@@ -1,3 +1,3 @@
-namespace Core.Departments.Commands.ChangeTitle;
+namespace ApplicationCore.Departments.Commands.ChangeTitle;
 
 public record ChangeDepartmentTitleCommandRequest(Guid DepartmentId, string Title);

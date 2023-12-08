@@ -1,6 +1,6 @@
 using Grpc.Services;
 using Persistence;
-using Core;
+using ApplicationCore;
 using TimeService;
 
 var builder = WebApplication.CreateBuilder(args);

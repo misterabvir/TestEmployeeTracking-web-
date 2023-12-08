@@ -1,6 +1,6 @@
-using Core.Abstractions.Common;
-using Core.Common;
+using ApplicationCore.Abstractions.Common;
+using Domain.Common;
 
-namespace Core.Departments.Commands.Delete;
+namespace ApplicationCore.Departments.Commands.Delete;
 
 public record DeleteDepartmentCommand(DeleteDepartmentCommandRequest Request) : ICommand<Result>;

@@ -31,12 +31,12 @@ public sealed class Department : Entity<DepartmentId>
         };
     }
 
-    public void ChangeTitle(Title title)
+    internal void ChangeTitle(Title title)
     {
         Title = title;
     }
 
-    public void SetParent(DepartmentId? parentId)
+    internal void SetParent(DepartmentId? parentId)
     {
         ParentId = parentId;
     }

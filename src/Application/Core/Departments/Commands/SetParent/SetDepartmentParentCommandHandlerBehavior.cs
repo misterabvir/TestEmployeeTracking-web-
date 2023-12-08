@@ -1,9 +1,9 @@
-using Core.Common;
-using Core.Departments.Errors;
-using Core.Departments.Requests;
+using Domain.Common;
+using ApplicationCore.Departments.Errors;
+using ApplicationCore.Departments.Responses;
 using MediatR;
 
-namespace Core.Departments.Commands.SetParent;
+namespace ApplicationCore.Departments.Commands.SetParent;
 
 public class SetDepartmentParentCommandHandlerBehavior : IPipelineBehavior<SetDepartmentParentCommand, Result<DepartmentResultResponse>>
 {

@@ -1,8 +1,8 @@
-using Core.Abstractions.Common;
-using Core.Common;
-using Core.Departments.Requests;
+using ApplicationCore.Abstractions.Common;
+using Domain.Common;
+using ApplicationCore.Departments.Responses;
 
-namespace Core.Departments.Commands.Create;
+namespace ApplicationCore.Departments.Commands.Create;
 
 public record CreateDepartmentCommand(CreateDepartmentCommandRequest Request) : ICommand<Result<DepartmentResultResponse>>;
 

@@ -1,10 +1,10 @@
-﻿using Core.Abstractions.Common;
-using Core.Abstractions.Repositories;
-using Core.Common;
-using Core.Employees.Requests;
+﻿using ApplicationCore.Abstractions.Common;
+using ApplicationCore.Abstractions.Repositories;
+using Domain.Common;
+using ApplicationCore.Employees.Responses;
 using Entities.Employees;
 
-namespace Core.Employees.Queries.GetAll;
+namespace ApplicationCore.Employees.Queries.GetAll;
 
 public sealed class GetAllEmployeeQueryHandler : IQueryHandler<GetAllEmployeeQuery, Result<IEnumerable<EmployeeResultResponse>>>
 {

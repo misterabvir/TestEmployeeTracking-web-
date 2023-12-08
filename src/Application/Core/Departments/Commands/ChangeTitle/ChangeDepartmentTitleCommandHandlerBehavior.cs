@@ -1,9 +1,9 @@
-using Core.Common;
-using Core.Departments.Errors;
-using Core.Departments.Requests;
+using Domain.Common;
+using ApplicationCore.Departments.Errors;
+using ApplicationCore.Departments.Responses;
 using MediatR;
 
-namespace Core.Departments.Commands.ChangeTitle;
+namespace ApplicationCore.Departments.Commands.ChangeTitle;
 
 public class ChangeDepartmentTitleCommandHandlerBehavior : IPipelineBehavior<ChangeDepartmentTitleCommand, Result<DepartmentResultResponse>>
 {

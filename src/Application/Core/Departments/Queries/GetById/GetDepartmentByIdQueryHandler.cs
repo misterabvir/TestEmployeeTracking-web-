@@ -1,12 +1,12 @@
-using Core.Abstractions.Common;
-using Core.Abstractions.Repositories;
-using Core.Common;
-using Core.Departments.Errors;
-using Core.Departments.Requests;
+using ApplicationCore.Abstractions.Common;
+using ApplicationCore.Abstractions.Repositories;
+using Domain.Common;
+using ApplicationCore.Departments.Errors;
+using ApplicationCore.Departments.Responses;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
 
-namespace Core.Departments.Queries.GetById;
+namespace ApplicationCore.Departments.Queries.GetById;
 
 public class GetDepartmentByIdQueryHandler : IQueryHandler<GetDepartmentByIdQuery, Result<DepartmentResultResponse>>
 {

@@ -1,4 +1,4 @@
-﻿using Core.Abstractions.Services;
+﻿using ApplicationCore.Abstractions.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace TimeService;

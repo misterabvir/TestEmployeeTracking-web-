@@ -1,4 +1,4 @@
-﻿using Core.Abstractions.Services;
+﻿using ApplicationCore.Abstractions.Services;
 
 namespace TimeService;
 

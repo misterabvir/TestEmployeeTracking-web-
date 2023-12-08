@@ -1,11 +1,11 @@
-using Core.Abstractions.Common;
-using Core.Abstractions.Repositories;
-using Core.Common;
-using Core.Departments.Errors;
+using ApplicationCore.Abstractions.Common;
+using ApplicationCore.Abstractions.Repositories;
+using Domain.Common;
+using ApplicationCore.Departments.Errors;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
 
-namespace Core.Departments.Commands.Delete;
+namespace ApplicationCore.Departments.Commands.Delete;
 
 public class DeleteDepartmentCommandHandler : ICommandHandler<DeleteDepartmentCommand, Result>
 {

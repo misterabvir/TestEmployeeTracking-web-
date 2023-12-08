@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Core.Employees.Commands.Create;
+namespace ApplicationCore.Employees.Commands.Create;
 
 public class CreateEmployeeCommandRequestValidator : AbstractValidator<CreateEmployeeCommandRequest>
 {

@@ -1,3 +1,3 @@
-namespace Core.Departments.Commands.Delete;
+namespace ApplicationCore.Departments.Commands.Delete;
 
 public record DeleteDepartmentCommandRequest(Guid DepartmentId);

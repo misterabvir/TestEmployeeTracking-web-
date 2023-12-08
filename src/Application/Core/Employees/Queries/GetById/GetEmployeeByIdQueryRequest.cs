@@ -1,3 +1,3 @@
-﻿namespace Core.Employees.Queries.GetById;
+﻿namespace ApplicationCore.Employees.Queries.GetById;
 
 public record GetEmployeeByIdQueryRequest(Guid EmployeeId);

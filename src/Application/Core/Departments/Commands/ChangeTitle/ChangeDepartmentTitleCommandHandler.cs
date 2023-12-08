@@ -1,20 +1,23 @@
-using Core.Abstractions.Common;
-using Core.Abstractions.Repositories;
-using Core.Common;
-using Core.Departments.Errors;
-using Core.Departments.Requests;
+using ApplicationCore.Abstractions.Common;
+using ApplicationCore.Abstractions.Repositories;
+using Domain.Common;
+using ApplicationCore.Departments.Errors;
+using ApplicationCore.Departments.Responses;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
+using Entities.Abstractions.Services;
 
-namespace Core.Departments.Commands.ChangeTitle;
+namespace ApplicationCore.Departments.Commands.ChangeTitle;
 
 public class ChangeDepartmentTitleCommandHandler : ICommandHandler<ChangeDepartmentTitleCommand, Result<DepartmentResultResponse>>
 {
     private readonly IDepartmentRepository _departmentRepository;
+    private readonly IDepartmentService _departmentService;
 
-    public ChangeDepartmentTitleCommandHandler(IDepartmentRepository departmentRepository)
+    public ChangeDepartmentTitleCommandHandler(IDepartmentRepository departmentRepository, IDepartmentService departmentService)
     {
         _departmentRepository = departmentRepository;
+        _departmentService = departmentService;
     }
 
     public async Task<Result<DepartmentResultResponse>> Handle(ChangeDepartmentTitleCommand command, CancellationToken cancellationToken)
@@ -25,7 +28,13 @@ public class ChangeDepartmentTitleCommandHandler : ICommandHandler<ChangeDepartm
         {
             return DepartmentErrors.NotFound(departmentId.Value);
         }
-        department.ChangeTitle(Title.Create(command.Request.Title));
+        
+        Title title = Title.Create(command.Request.Title);
+        if(!_departmentService.ChangeTitle(department, title).IsSuccess)
+        {
+            return DepartmentErrors.Unexpected(departmentId.Value);
+        }
+
         await _departmentRepository.Update(department, cancellationToken);
         return Result<DepartmentResultResponse>.Success(DepartmentResultResponse.FromDomain(department));
     }

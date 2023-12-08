@@ -1,12 +1,12 @@
 using Entities.Departments;
 
-namespace Core.Departments.Requests;
+namespace ApplicationCore.Departments.Responses;
 
-public class DepartmentResultResponse
+public sealed class DepartmentResultResponse
 {
-    public Guid Id { get; set; }
-    public Guid? ParentId { get; set; }
-    public string Title { get; set; } = string.Empty;
+    public Guid Id { get; private  set; }
+    public Guid? ParentId { get; private  set; }
+    public string Title { get; private  set; } = string.Empty;
 
     internal static DepartmentResultResponse FromDomain(Department department)
     {

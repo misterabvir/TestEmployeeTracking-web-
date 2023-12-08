@@ -1,11 +1,11 @@
-﻿using Core.Abstractions.Common;
-using Core.Abstractions.Repositories;
-using Core.Common;
-using Core.Employees.Requests;
-using Core.Employees.Errors;
+﻿using ApplicationCore.Abstractions.Common;
+using ApplicationCore.Abstractions.Repositories;
+using Domain.Common;
+using ApplicationCore.Employees.Responses;
+using ApplicationCore.Employees.Errors;
 using Entities.Employees.ValueObjects;
 
-namespace Core.Employees.Queries.GetById;
+namespace ApplicationCore.Employees.Queries.GetById;
 
 public class GetEmployeeByIdQueryHandler : IQueryHandler<GetEmployeeByIdQuery, Result<EmployeeResultResponse>>
 {

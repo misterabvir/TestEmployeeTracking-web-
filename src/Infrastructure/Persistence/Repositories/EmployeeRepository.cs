@@ -1,12 +1,14 @@
-﻿using Core.Abstractions.Repositories;
+﻿using ApplicationCore.Abstractions.Repositories;
+using Dapper;
 using Entities.Abstractions;
+using Entities.Departments.ValueObjects;
 using Entities.Employees;
 using Persistence.Common;
 using Persistence.DTO;
 
 namespace Persistence.Repositories;
 
-internal class EmployeeRepository : IEmployeeRepository
+internal sealed class EmployeeRepository : IEmployeeRepository
 {
     private readonly DbService _service;
 
@@ -21,61 +23,80 @@ internal class EmployeeRepository : IEmployeeRepository
                     INSERT INTO Employees(Id, LastName, FirstName, DepartmentId) 
                     VALUES(@id, @lastname, @firstname, @departmentId);
                     """;
-        await _service.ExecuteAsync(sql, EmployeeDto.FromDomain(employee));
+        CommandDefinition command = new(
+            commandText: sql,
+            parameters: EmployeeDto.FromDomain(employee),
+            cancellationToken: cancellationToken);
+        await _service.ExecuteAsync(command);
     }
 
     public async Task Delete(Id Id, CancellationToken cancellationToken)
     {
-        string sql = "DELETE FROM Employees WHERE Id=@Id";
-        await _service.ExecuteAsync(sql, new { Id = Id.Value });
+        string sql = """
+                DELETE 
+                FROM Employees 
+                WHERE Id=@Id
+                """;
+        CommandDefinition command = new(
+            commandText: sql,
+            cancellationToken: cancellationToken);
+        await _service.ExecuteAsync(command);
     }
 
     public async Task<IEnumerable<Employee>> Get(CancellationToken cancellationToken)
     {
         string sql = """
-                    SELECT 
-                        Id, 
-                        LastName, 
-                        FirstName, 
-                        DepartmentId 
-                    FROM 
-                        Employees;
+                    SELECT Id, LastName, FirstName, DepartmentId 
+                    FROM Employees;
                     """;
-        IEnumerable<EmployeeDto> result = await _service.QueryAsync<EmployeeDto>(sql);
+        CommandDefinition command = new(
+            commandText: sql,
+            cancellationToken: cancellationToken);
+        var result = await _service.QueryAsync<EmployeeDto>(command);
         return result.Select(s => s.ToDomain());
     }
 
     public async Task<Employee?> Get(Id id, CancellationToken cancellationToken)
     {
         string sql = """
-                    SELECT 
-                        Id, 
-                        LastName, 
-                        FirstName, 
-                        DepartmentId 
-                    FROM 
-                        Employees 
-                    WHERE 
-                        Id=@Id;
+                    SELECT Id, LastName, FirstName, DepartmentId 
+                    FROM Employees 
+                    WHERE Id=@Id;
                     """;
-        EmployeeDto? result = await _service.QueryFirstOrDefaultAsync<EmployeeDto>(sql, new { Id = id.Value});        
+        CommandDefinition command = new(
+            commandText: sql,
+            parameters: new { Id = id.Value },
+            cancellationToken: cancellationToken);
+        var result = await _service.QueryFirstOrDefaultAsync<EmployeeDto>(command);
         return result?.ToDomain();
     }
 
-  
+    public async Task<IEnumerable<Employee>> GetByDepartmentId(DepartmentId departmentId, CancellationToken cancellationToken)
+    {
+        string sql = """
+                    SELECT Id, LastName, FirstName, DepartmentId 
+                    FROM Employees 
+                    WHERE DepartmentId=@DepartmentId;
+                    """;
+        CommandDefinition command = new(
+            commandText: sql,
+            parameters: new { DepartmentId = departmentId.Value },
+            cancellationToken: cancellationToken);
+        var result = await _service.QueryAsync<EmployeeDto>(command);
+        return result.Select(x => x.ToDomain());
+    }
 
     public async Task Update(Employee entity, CancellationToken cancellationToken)
     {
         string sql = """
-                    UPDATE 
-                        Employees 
-                    SET 
-                        LastName=@LastName, 
-                        FirstName=@FirstName, 
-                        DepartmentId=@DepartmentId
-                    WHERE 
-                        Id=@Id;
+                    UPDATE  Employees 
+                    SET LastName=@LastNam, FirstName=@FirstName, DepartmentId=@DepartmentId
+                    WHERE Id=@Id;
                     """;
-        await _service.ExecuteAsync(sql, EmployeeDto.FromDomain(entity));
+        CommandDefinition command = new(
+            commandText: sql,
+            parameters: EmployeeDto.FromDomain(entity),
+            cancellationToken: cancellationToken);
+        await _service.ExecuteAsync(command);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Core.Employees.Queries.GetById;
+namespace ApplicationCore.Employees.Queries.GetById;
 
 public class GetEmployeeByIdQueryRequestValidator : AbstractValidator<GetEmployeeByIdQueryRequest>
 {

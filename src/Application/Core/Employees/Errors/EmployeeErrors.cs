@@ -1,8 +1,8 @@
-﻿using Core.Common;
-using Core.Employees.Requests;
+﻿using Domain.Common;
+using ApplicationCore.Employees.Responses;
 using FluentValidation.Results;
 
-namespace Core.Employees.Errors;
+namespace ApplicationCore.Employees.Errors;
 
 public static class EmployeeErrors
 {
@@ -17,5 +17,8 @@ public static class EmployeeErrors
 
     public static Error<EmployeeResultResponse> AlreadyInDepartment(Guid employeeId) =>
         new("Employee.Department", $"Employee with id {{{employeeId}}} already in department");
+
+    public static Error<EmployeeResultResponse> UnexpectedError(Guid employeeId) =>
+        new("Employee.Unexpected", $"Unexpected error with employee with id {{{employeeId}}}");
 
 }

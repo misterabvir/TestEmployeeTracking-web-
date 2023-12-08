@@ -1,8 +1,8 @@
-﻿using Core.Abstractions.Common;
-using Core.Common;
-using Core.Employees.Requests;
+﻿using ApplicationCore.Abstractions.Common;
+using Domain.Common;
+using ApplicationCore.Employees.Responses;
 
-namespace Core.Employees.Queries.GetAll;
+namespace ApplicationCore.Employees.Queries.GetAll;
 
 public sealed class GetAllEmployeeQuery : IQuery<Result<IEnumerable<EmployeeResultResponse>>>
 {

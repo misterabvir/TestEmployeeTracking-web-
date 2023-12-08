@@ -1,8 +1,8 @@
-using Core.Common;
-using Core.Departments.Errors;
+using Domain.Common;
+using ApplicationCore.Departments.Errors;
 using MediatR;
 
-namespace Core.Departments.Commands.Delete;
+namespace ApplicationCore.Departments.Commands.Delete;
 
 public class DeleteDepartmentCommandHandlerBehavior : IPipelineBehavior<DeleteDepartmentCommand, Result>
 {

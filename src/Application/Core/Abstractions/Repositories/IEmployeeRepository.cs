@@ -1,7 +1,7 @@
 ﻿using Entities.Departments.ValueObjects;
 using Entities.Employees;
 
-namespace Core.Abstractions.Repositories;
+namespace ApplicationCore.Abstractions.Repositories;
 
 
 
