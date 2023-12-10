@@ -44,3 +44,6 @@ service DepartmentsProto {
     string title = 2;
     string parent_id = 3;
   }
+
+  message DepartmentDeleteResponse{
+  }

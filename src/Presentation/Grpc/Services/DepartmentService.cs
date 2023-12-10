@@ -1,25 +1,25 @@
-using ApplicationCore.Employees.Queries.GetAll;
+﻿using ApplicationCore.Departments.Queries.GetAll;
 using Grpc.Core;
 using Grpc.Extensions;
 using MediatR;
 
 namespace Grpc.Services;
 
-public class EmployeeService : EmployeesProto.EmployeesProtoBase
+public sealed class DepartmentService : DepartmentsProto.DepartmentsProtoBase
 {
     private readonly ISender _sender;
 
-    public EmployeeService(ISender sender)
+    public DepartmentService(ISender sender)
     {
         _sender = sender;
     }
 
     public override async Task GetAll(
-        AllEmployeeRequest request,
-        IServerStreamWriter<EmployeeResponse> responseStream,
+        GetAllDepartmentRequest request, 
+        IServerStreamWriter<DepartmentResponse> responseStream, 
         ServerCallContext context)
     {
-        var result = await _sender.Send(new GetAllEmployeeQuery());
+        var result = await _sender.Send(new GetAllDepartmentsQuery());
         if (result.IsFailure)
         {
             throw new RpcException(result.Error.GetStatus());
@@ -33,8 +33,8 @@ public class EmployeeService : EmployeesProto.EmployeesProtoBase
         }
     }
 
-    public override async Task<EmployeeResponse> GetById(
-        ByIdEmployeeRequest request, 
+    public override async Task<DepartmentResponse> GetById(
+        GetByIdDepartmentRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultQuery());
@@ -45,8 +45,8 @@ public class EmployeeService : EmployeesProto.EmployeesProtoBase
         return result.Value!.ToResponse();
     }
 
-    public override async Task<EmployeeResponse> Create(
-        CreateEmployeeRequest request,
+    public override async Task<DepartmentResponse> Create(
+        CreateDepartmentRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
@@ -57,8 +57,8 @@ public class EmployeeService : EmployeesProto.EmployeesProtoBase
         return result.Value!.ToResponse();
     }
 
-    public async override Task<EmployeeResponse> ChangePersonalData(
-        ChangePersonalDataEmployeeRequest request,
+    public override async Task<DepartmentResponse> ChangeTitle(
+        ChangeTitleDepartmentRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
@@ -69,8 +69,8 @@ public class EmployeeService : EmployeesProto.EmployeesProtoBase
         return result.Value!.ToResponse();
     }
 
-    public async override Task<EmployeeResponse> ChangeDepartment(
-        ChangeDepartmentEmployeeRequest request,
+    public override async Task<DepartmentResponse> ChangeParent(
+        ChangeParentRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
@@ -81,13 +81,15 @@ public class EmployeeService : EmployeesProto.EmployeesProtoBase
         return result.Value!.ToResponse();
     }
 
-    public async override Task<EmployeeDeleteResponse> Delete(DeleteEmployeeRequest request, ServerCallContext context)
+    public override async Task<DepartmentResponse> Delete(
+        DeleteDepartmentRequest request, 
+        ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
         if (result.IsFailure)
         {
             throw new RpcException(result.Error.GetStatus());
         }
-        return new EmployeeDeleteResponse();
+        return new DepartmentResponse();
     }
 }

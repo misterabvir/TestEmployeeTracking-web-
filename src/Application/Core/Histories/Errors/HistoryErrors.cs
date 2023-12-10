@@ -8,11 +8,11 @@ namespace ApplicationCore.Histories.Errors;
 public static class HistoryErrors
 {
     public static Error<IEnumerable<HistoryResultResponse>> ValidationError(ValidationResult result) =>
-        new("History.Validation", $"Request is not valid: {string.Join(";\r\n", result.Errors.Select(err => $"{err.PropertyName} {err.ErrorMessage}"))}");
+        new("History.Validation", $"Request is not valid: {string.Join(";\r\n", result.Errors.Select(err => $"{err.PropertyName} {err.ErrorMessage}"))}", ResultErrorStatus.InvalidArgument);
 
     public static Error<IEnumerable<HistoryResultResponse>> DepartmentNotFound(DepartmentId departmentId) =>
-        new("History.DepartmentNotFound", $"Department with id {departmentId.Value} not found");
+        new("History.DepartmentNotFound", $"Department with id {departmentId.Value} not found", ResultErrorStatus.NotFound);
 
     public static Error<IEnumerable<HistoryResultResponse>> EmployeeNotFound(Guid value) =>
-       new("History.EmployeeNotFound", $"Employee with id {value} not found"); 
+       new("History.EmployeeNotFound", $"Employee with id {value} not found", ResultErrorStatus.NotFound); 
 }

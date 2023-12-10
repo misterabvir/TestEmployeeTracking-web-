@@ -31,10 +31,11 @@ public class ChangePersonalDataCommandHandler : ICommandHandler<ChangePersonalDa
         
         LastName lastName = LastName.Create(command.Request.LastName);
         FirstName firstName = FirstName.Create(command.Request.FirstName);
-        
-        if(_employeeService.ChangePersonalData(employee, lastName, firstName).IsFailure)
+
+        var result = _employeeService.ChangePersonalData(employee, lastName, firstName);
+        if(result.IsFailure)
         {
-            return EmployeeErrors.UnexpectedError(employeeId.Value);
+            return EmployeeErrors.UnexpectedError(result.Error);
         }
         
         await _employeeRepository.Update(employee, cancellationToken);

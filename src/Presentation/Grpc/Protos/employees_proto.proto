@@ -10,7 +10,7 @@ service EmployeesProto {
     rpc Create (CreateEmployeeRequest) returns (EmployeeResponse);
     rpc ChangePersonalData (ChangePersonalDataEmployeeRequest) returns (EmployeeResponse);
     rpc ChangeDepartment (ChangeDepartmentEmployeeRequest) returns (EmployeeResponse);
-    rpc Delete (DeleteEmployeeRequest) returns (EmployeeResponse);
+    rpc Delete (DeleteEmployeeRequest) returns (EmployeeDeleteResponse);
   }
 
   message AllEmployeeRequest {}
@@ -45,4 +45,8 @@ service EmployeesProto {
     string lastname = 2;
     string firstname = 3;
     string department_id = 4;
+  }
+
+  message EmployeeDeleteResponse{
+
   }

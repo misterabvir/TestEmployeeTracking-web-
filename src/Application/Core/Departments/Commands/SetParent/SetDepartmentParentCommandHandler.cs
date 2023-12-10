@@ -43,10 +43,10 @@ public class SetDepartmentParentCommandHandler : ICommandHandler<SetDepartmentPa
                 return DepartmentErrors.NotFound(parentId.Value);
             }
         }
-
-        if(_departmentService.ChangeParentDepartment(department, parentId).IsFailure)
+        var result = _departmentService.ChangeParentDepartment(department, parentId); 
+        if(result.IsFailure)
         {
-            return DepartmentErrors.Unexpected(departmentId.Value);   //TODO refactor
+            return DepartmentErrors.Unexpected(result.Error);
         }
         
         await _departmentRepository.Update(department, cancellationToken);

@@ -30,9 +30,11 @@ public class ChangeDepartmentTitleCommandHandler : ICommandHandler<ChangeDepartm
         }
         
         Title title = Title.Create(command.Request.Title);
-        if(!_departmentService.ChangeTitle(department, title).IsSuccess)
+
+        var result = _departmentService.ChangeTitle(department, title);
+        if(result.IsFailure)
         {
-            return DepartmentErrors.Unexpected(departmentId.Value);
+            return DepartmentErrors.Unexpected(result.Error);
         }
 
         await _departmentRepository.Update(department, cancellationToken);

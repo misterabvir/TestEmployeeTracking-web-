@@ -64,9 +64,10 @@ public class ChangeDepartmentCommandHandler : ICommandHandler<ChangeDepartmentCo
             await _historyRepository.Update(last, cancellationToken);
         }
 
-        if(_employeeService.ChangeDepartment(employee, departmentId).IsFailure)
+        var result = _employeeService.ChangeDepartment(employee, departmentId);
+        if(result.IsFailure)
         {
-            return EmployeeErrors.UnexpectedError(employeeId.Value);   
+            return EmployeeErrors.UnexpectedError(result.Error);   
         }
 
         last = History.Create(employeeId, departmentId, _dateTimeService.Today);
