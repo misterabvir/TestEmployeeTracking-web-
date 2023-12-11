@@ -4,6 +4,7 @@ using Entities.Abstractions;
 using Entities.Departments.ValueObjects;
 using Entities.Employees.ValueObjects;
 using Entities.Histories;
+using Entities.Histories.ValueObjects;
 using Persistence.Common;
 using Persistence.DTO;
 
@@ -22,7 +23,7 @@ internal sealed class HistoryRepository : IHistoryRepository
     {
         string sql = """
                 INSERT INTO History(Id, EmployeeId, DepartmentId, StartDate, EndDate)
-                VALUE(@Id, @EmployeeId, @DepartmentId, @StartDate, @EndDate)
+                VALUES(@Id, @EmployeeId, @DepartmentId, @StartDate, @EndDate)
                 """;
         CommandDefinition command = new(
             commandText: sql,
@@ -125,9 +126,10 @@ internal sealed class HistoryRepository : IHistoryRepository
             SET EndDate=@EndDate 
             WHERE Id=@Id
             """;
-        CommandDefinition command = new(
-            commandText: sql, parameters: 
-            new { Id = entity.Id.Value, EndDate = entity.EndDate }, 
+            CommandDefinition command = new(
+            commandText: sql, 
+            parameters:
+            HistoryDto.FromDomain(entity), 
             cancellationToken: cancellationToken);
         await _service.ExecuteAsync(command);
     }

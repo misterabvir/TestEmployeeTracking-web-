@@ -74,14 +74,20 @@ internal sealed class DepartmentRepository : IDepartmentRepository
 
     public async Task<Department?> GetByNameAndParentId(Title title, DepartmentId? parentId, CancellationToken cancellationToken)
     {
-        string sql = """
+        string sql = parentId is not null ? """
                 SELECT Id, ParentId, Title 
                 FROM Departments 
                 WHERE Title=@Title AND ParentId = @ParentId;
+                """ :
+                """
+                SELECT Id, ParentId, Title 
+                FROM Departments 
+                WHERE Title=@Title AND ParentId IS NULL;
                 """;
+
         CommandDefinition command = new(
             commandText: sql,
-            parameters: new { Title = title, ParentId = parentId?.Value },
+            parameters: new { Title = title.Value, ParentId = parentId?.Value ?? Guid.Empty },
             cancellationToken: cancellationToken);
         var result = await _service.QueryFirstOrDefaultAsync<DepartmentDto>(command);
         return result?.ToDomain();

@@ -5,6 +5,6 @@ CREATE TABLE History(
 	DepartmentId uniqueidentifier NOT NULL,
 	StartDate DATE NOT NULL,
 	EndDate DATE NULL,
-	CONSTRAINT FK_Employee FOREIGN KEY (EmployeeId) REFERENCES Employees(Id) ON DELETE CASCADE,
+	CONSTRAINT FK_Employee FOREIGN KEY (EmployeeId) REFERENCES Employees(Id) ON DELETE NO ACTION,
 	CONSTRAINT FK_Departments FOREIGN KEY (DepartmentId) REFERENCES Departments(Id) ON DELETE CASCADE
 );

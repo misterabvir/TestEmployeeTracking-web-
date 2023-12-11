@@ -30,7 +30,7 @@ internal sealed class EmployeeRepository : IEmployeeRepository
         await _service.ExecuteAsync(command);
     }
 
-    public async Task Delete(Id Id, CancellationToken cancellationToken)
+    public async Task Delete(Id id, CancellationToken cancellationToken)
     {
         string sql = """
                 DELETE 
@@ -39,6 +39,7 @@ internal sealed class EmployeeRepository : IEmployeeRepository
                 """;
         CommandDefinition command = new(
             commandText: sql,
+            parameters: new { Id = id.Value},
             cancellationToken: cancellationToken);
         await _service.ExecuteAsync(command);
     }
@@ -90,7 +91,7 @@ internal sealed class EmployeeRepository : IEmployeeRepository
     {
         string sql = """
                     UPDATE  Employees 
-                    SET LastName=@LastNam, FirstName=@FirstName, DepartmentId=@DepartmentId
+                    SET LastName=@LastName, FirstName=@FirstName, DepartmentId=@DepartmentId
                     WHERE Id=@Id;
                     """;
         CommandDefinition command = new(

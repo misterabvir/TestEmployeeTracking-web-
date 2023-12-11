@@ -9,6 +9,7 @@ internal class DbService
     public DbService(string connectionString)
     {
         _connectionString = connectionString;
+        SqlMapper.AddTypeHandler(new DapperSqlDateOnlyTypeHandler());
     }
 
     public async Task ExecuteAsync(CommandDefinition command)
