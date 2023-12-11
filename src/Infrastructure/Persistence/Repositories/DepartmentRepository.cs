@@ -4,7 +4,6 @@ using Entities.Abstractions;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
 using Persistence.Common;
-using Persistence.DTO;
 
 namespace Persistence.Repositories;
 
@@ -25,12 +24,12 @@ internal sealed class DepartmentRepository : IDepartmentRepository
                 """;
         CommandDefinition command = new(
             commandText: sql,
-            parameters: DepartmentDto.FromDomain(entity),
+            parameters: entity,
             cancellationToken: cancellationToken);
         await _service.ExecuteAsync(command);
     }
 
-    public async Task Delete(Id Id, CancellationToken cancellationToken)
+    public async Task Delete(Id id, CancellationToken cancellationToken)
     {
         string sql = """
                 DELETE 
@@ -39,12 +38,12 @@ internal sealed class DepartmentRepository : IDepartmentRepository
                 """;
         CommandDefinition command = new(
             commandText: sql,
-            parameters: new { Id = Id.Value },
+            parameters: new { Id = id.Value },
             cancellationToken: cancellationToken);
         await _service.ExecuteAsync(command);
     }
 
-    public async Task<Department?> Get(Id Id, CancellationToken cancellationToken)
+    public async Task<Department?> Get(Id id, CancellationToken cancellationToken)
     {
         string sql = """
                 SELECT Id, ParentId, Title 
@@ -53,10 +52,9 @@ internal sealed class DepartmentRepository : IDepartmentRepository
                 """;
         CommandDefinition command = new(
             commandText: sql,
-            parameters: new { Id = Id.Value },
+            parameters: new { Id = id.Value },
             cancellationToken: cancellationToken);
-        var result = await _service.QueryFirstOrDefaultAsync<DepartmentDto>(command);
-        return result?.ToDomain();
+        return await _service.QueryFirstOrDefaultAsync<Department>(command);
     }
 
     public async Task<IEnumerable<Department>> Get(CancellationToken cancellationToken)
@@ -68,8 +66,7 @@ internal sealed class DepartmentRepository : IDepartmentRepository
         CommandDefinition command = new(
             commandText: sql,
             cancellationToken: cancellationToken);
-        var result = await _service.QueryAsync<DepartmentDto>(command);
-        return result.Select(x => x.ToDomain());
+        return await _service.QueryAsync<Department>(command);
     }
 
     public async Task<Department?> GetByNameAndParentId(Title title, DepartmentId? parentId, CancellationToken cancellationToken)
@@ -87,10 +84,9 @@ internal sealed class DepartmentRepository : IDepartmentRepository
 
         CommandDefinition command = new(
             commandText: sql,
-            parameters: new { Title = title.Value, ParentId = parentId?.Value ?? Guid.Empty },
+            parameters: new { Title = title, ParentId = parentId },
             cancellationToken: cancellationToken);
-        var result = await _service.QueryFirstOrDefaultAsync<DepartmentDto>(command);
-        return result?.ToDomain();
+        return await _service.QueryFirstOrDefaultAsync<Department>(command);
     }
 
     public async Task Update(Department entity, CancellationToken cancellationToken)
@@ -102,7 +98,7 @@ internal sealed class DepartmentRepository : IDepartmentRepository
                 """;
         CommandDefinition command = new(
             commandText: sql,
-            parameters: DepartmentDto.FromDomain(entity),
+            parameters: entity,
             cancellationToken: cancellationToken);
         await _service.ExecuteAsync(command);
     }

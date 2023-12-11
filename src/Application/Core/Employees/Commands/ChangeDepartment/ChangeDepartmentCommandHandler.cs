@@ -20,19 +20,22 @@ public class ChangeDepartmentCommandHandler : ICommandHandler<ChangeDepartmentCo
     private readonly IHistoryRepository _historyRepository;
     private readonly IDateTimeService _dateTimeService;
     private readonly IEmployeeService _employeeService;
+    private readonly IHistoryService _historyService;
 
     public ChangeDepartmentCommandHandler(
         IEmployeeRepository employeeRepository,
         IDepartmentRepository departmentRepository,
         IHistoryRepository historyRepository,
         IDateTimeService dateTimeService,
-        IEmployeeService employeeService)
+        IEmployeeService employeeService,
+        IHistoryService historyService)
     {
         _employeeRepository = employeeRepository;
         _departmentRepository = departmentRepository;
         _historyRepository = historyRepository;
         _dateTimeService = dateTimeService;
         _employeeService = employeeService;
+        _historyService = historyService;
     }
 
     public async Task<Result<EmployeeResultResponse>> Handle(ChangeDepartmentCommand command, CancellationToken cancellationToken)
@@ -60,7 +63,13 @@ public class ChangeDepartmentCommandHandler : ICommandHandler<ChangeDepartmentCo
         History? last = await _historyRepository.Get(employeeId, employee.DepartmentId, cancellationToken);
         if (last is not null)
         {
-            last.Complete(_dateTimeService.Today);
+            var updated = _historyService.Complete(last, _dateTimeService.Today);
+
+            if (updated.IsFailure)
+            {
+                return EmployeeErrors.UnexpectedError(updated.Error);
+            }
+            last = updated.Value!;
             await _historyRepository.Update(last, cancellationToken);
         }
 

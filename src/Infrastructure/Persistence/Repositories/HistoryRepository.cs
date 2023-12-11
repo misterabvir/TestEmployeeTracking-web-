@@ -4,9 +4,7 @@ using Entities.Abstractions;
 using Entities.Departments.ValueObjects;
 using Entities.Employees.ValueObjects;
 using Entities.Histories;
-using Entities.Histories.ValueObjects;
 using Persistence.Common;
-using Persistence.DTO;
 
 namespace Persistence.Repositories;
 
@@ -27,7 +25,7 @@ internal sealed class HistoryRepository : IHistoryRepository
                 """;
         CommandDefinition command = new(
             commandText: sql,
-            parameters: HistoryDto.FromDomain(history),
+            parameters: history,
             cancellationToken: cancellationToken);
         await _service.ExecuteAsync(command);
     }
@@ -40,8 +38,8 @@ internal sealed class HistoryRepository : IHistoryRepository
                     WHERE Id=@Id
                     """;
         CommandDefinition command = new(
-            commandText: sql, 
-            parameters: new { Id = Id.Value }, 
+            commandText: sql,
+            parameters: new { Id = Id.Value },
             cancellationToken: cancellationToken);
         await _service.ExecuteAsync(command);
     }
@@ -53,10 +51,9 @@ internal sealed class HistoryRepository : IHistoryRepository
             FROM History
             """;
         CommandDefinition command = new(
-            commandText: sql, 
+            commandText: sql,
             cancellationToken: cancellationToken);
-        IEnumerable<HistoryDto> result = await _service.QueryAsync<HistoryDto>(command);
-        return result.Select(h => h.ToDomain());
+        return await _service.QueryAsync<History>(command);
     }
 
     public async Task<History?> Get(Id Id, CancellationToken cancellationToken)
@@ -67,11 +64,10 @@ internal sealed class HistoryRepository : IHistoryRepository
             WHERE Id=@Id
             """;
         CommandDefinition command = new(
-            commandText: sql, 
-            parameters: new { Id = Id.Value }, 
+            commandText: sql,
+            parameters: new { Id = Id.Value },
             cancellationToken: cancellationToken);
-        var result = await _service.QueryFirstOrDefaultAsync<HistoryDto>(command);
-        return result?.ToDomain();
+        return await _service.QueryFirstOrDefaultAsync<History>(command);
     }
 
     public async Task<History?> Get(EmployeeId employeeId, DepartmentId departmentId, CancellationToken cancellationToken)
@@ -82,11 +78,10 @@ internal sealed class HistoryRepository : IHistoryRepository
                 WHERE EmployeeId=@EmployeeId AND DepartmentId=@DepartmentId AND EndDate IS NULL;
                 """;
         CommandDefinition command = new(
-            commandText: sql, 
-            parameters: new { EmployeeId = employeeId.Value, DepartmentId = departmentId.Value }, 
-            cancellationToken: cancellationToken);    
-        var result = await _service.QueryFirstOrDefaultAsync<HistoryDto>(command);
-        return result?.ToDomain();
+            commandText: sql,
+            parameters: new { EmployeeId = employeeId.Value, DepartmentId = departmentId.Value },
+            cancellationToken: cancellationToken);
+        return await _service.QueryFirstOrDefaultAsync<History>(command);
     }
 
     public async Task<IEnumerable<History>> GetDepartmentHistory(DepartmentId departmentId, CancellationToken cancellationToken)
@@ -97,11 +92,10 @@ internal sealed class HistoryRepository : IHistoryRepository
             WHERE DepartmentId=@DepartmentId
             """;
         CommandDefinition command = new(
-            commandText: sql, 
+            commandText: sql,
             parameters: new { DepartmentId = departmentId.Value },
             cancellationToken: cancellationToken);
-        var result = await _service.QueryAsync<HistoryDto>(command);
-        return result.Select(h => h.ToDomain());
+        return await _service.QueryAsync<History>(command);
     }
 
     public async Task<IEnumerable<History>> GetEmployeeHistory(EmployeeId employeeId, CancellationToken cancellationToken)
@@ -112,11 +106,10 @@ internal sealed class HistoryRepository : IHistoryRepository
             WHERE EmployeeId=@EmployeeId
             """;
         CommandDefinition command = new(
-            commandText: sql, 
+            commandText: sql,
             parameters: new { EmployeeId = employeeId.Value },
             cancellationToken: cancellationToken);
-        var result = await _service.QueryAsync<HistoryDto>(command);
-        return result.Select(h => h.ToDomain());
+        return await _service.QueryAsync<History>(command);
     }
 
     public async Task Update(History entity, CancellationToken cancellationToken)
@@ -126,11 +119,10 @@ internal sealed class HistoryRepository : IHistoryRepository
             SET EndDate=@EndDate 
             WHERE Id=@Id
             """;
-            CommandDefinition command = new(
-            commandText: sql, 
-            parameters:
-            HistoryDto.FromDomain(entity), 
-            cancellationToken: cancellationToken);
+        CommandDefinition command = new(
+        commandText: sql,
+        parameters: entity,
+        cancellationToken: cancellationToken);
         await _service.ExecuteAsync(command);
     }
 }

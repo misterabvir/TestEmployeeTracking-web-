@@ -4,7 +4,6 @@ using Entities.Abstractions;
 using Entities.Departments.ValueObjects;
 using Entities.Employees;
 using Persistence.Common;
-using Persistence.DTO;
 
 namespace Persistence.Repositories;
 
@@ -25,7 +24,7 @@ internal sealed class EmployeeRepository : IEmployeeRepository
                     """;
         CommandDefinition command = new(
             commandText: sql,
-            parameters: EmployeeDto.FromDomain(employee),
+            parameters: employee,
             cancellationToken: cancellationToken);
         await _service.ExecuteAsync(command);
     }
@@ -53,8 +52,7 @@ internal sealed class EmployeeRepository : IEmployeeRepository
         CommandDefinition command = new(
             commandText: sql,
             cancellationToken: cancellationToken);
-        var result = await _service.QueryAsync<EmployeeDto>(command);
-        return result.Select(s => s.ToDomain());
+        return await _service.QueryAsync<Employee>(command);
     }
 
     public async Task<Employee?> Get(Id id, CancellationToken cancellationToken)
@@ -68,8 +66,7 @@ internal sealed class EmployeeRepository : IEmployeeRepository
             commandText: sql,
             parameters: new { Id = id.Value },
             cancellationToken: cancellationToken);
-        var result = await _service.QueryFirstOrDefaultAsync<EmployeeDto>(command);
-        return result?.ToDomain();
+        return await _service.QueryFirstOrDefaultAsync<Employee>(command);
     }
 
     public async Task<IEnumerable<Employee>> GetByDepartmentId(DepartmentId departmentId, CancellationToken cancellationToken)
@@ -83,8 +80,7 @@ internal sealed class EmployeeRepository : IEmployeeRepository
             commandText: sql,
             parameters: new { DepartmentId = departmentId.Value },
             cancellationToken: cancellationToken);
-        var result = await _service.QueryAsync<EmployeeDto>(command);
-        return result.Select(x => x.ToDomain());
+        return await _service.QueryAsync<Employee>(command);
     }
 
     public async Task Update(Employee entity, CancellationToken cancellationToken)
@@ -96,7 +92,7 @@ internal sealed class EmployeeRepository : IEmployeeRepository
                     """;
         CommandDefinition command = new(
             commandText: sql,
-            parameters: EmployeeDto.FromDomain(entity),
+            parameters: entity,
             cancellationToken: cancellationToken);
         await _service.ExecuteAsync(command);
     }

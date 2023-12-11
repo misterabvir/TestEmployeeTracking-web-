@@ -43,7 +43,7 @@ public sealed class History : Entity<HistoryId>
         };
     }
 
-    public void Complete(DateOnly endDate)
+    internal void Complete(DateOnly endDate)
     {       
         EndDate = endDate;
     }

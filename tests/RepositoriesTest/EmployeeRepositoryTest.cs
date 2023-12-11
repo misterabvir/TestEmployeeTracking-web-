@@ -85,17 +85,18 @@ public class EmployeeRepositoryTest
         using var scope = TransactionFactory.CreateTransaction();
 
         //Arrange
-        Employee employee = await GetEmployee();
+        Employee expected = await GetEmployee();
         LastName lastName = LastName.Create("NewLastName");
         FirstName firstName = FirstName.Create("NewFirstName");
-        Employee expected = Employee.Create(employee.Id, lastName, firstName, employee.DepartmentId);
+        expected.ChangePersonalData(lastName, firstName);
+        
         //Act
-        await _employeeRepository.Update(employee, default);
-        Employee? actual = await _employeeRepository.Get(employee.Id, default);
+        await _employeeRepository.Update(expected, default);
+        Employee? actual = await _employeeRepository.Get(expected.Id, default);
 
         //Assert
         Assert.NotNull(actual);
-        Assert.Equal(employee, actual);
+        Assert.Equal(expected, actual);
     }
 
     [Fact]
