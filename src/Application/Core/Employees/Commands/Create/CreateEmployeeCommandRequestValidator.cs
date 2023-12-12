@@ -9,6 +9,6 @@ public class CreateEmployeeCommandRequestValidator : AbstractValidator<CreateEmp
     public CreateEmployeeCommandRequestValidator() {
         RuleFor(e => e.FirstName).NotNull().NotEmpty().MinimumLength(FirstNameMinimumLength);
         RuleFor(e => e.LastName).NotNull().NotEmpty().MinimumLength(LastNameMinimumLength);
-        RuleFor(e => e.DepartmentId).NotNull().NotEmpty();
+        RuleFor(e => e.DepartmentId).NotEmpty();
     }
 }

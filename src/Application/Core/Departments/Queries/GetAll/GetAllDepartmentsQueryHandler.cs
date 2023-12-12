@@ -17,6 +17,6 @@ public class GetAllDepartmentsQueryHandler : IQueryHandler<GetAllDepartmentsQuer
     public async Task<Result<IEnumerable<DepartmentResultResponse>>> Handle(GetAllDepartmentsQuery query, CancellationToken cancellationToken)
     {
         var departments = await _departmentRepository.Get(cancellationToken);
-        return Result<IEnumerable<DepartmentResultResponse>>.Success(departments.Select(s=>DepartmentResultResponse.FromDomain(s)));
+        return Result<IEnumerable<DepartmentResultResponse>>.Success(departments.Select(DepartmentResultResponse.FromDomain));
     }
 }

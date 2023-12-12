@@ -25,13 +25,19 @@ public class CreateDepartmentCommandHandler : ICommandHandler<CreateDepartmentCo
         if (command.Request.ParentDepartmentId is not null)
         {
             parentId = DepartmentId.Create(command.Request.ParentDepartmentId.Value);
+            Department? parent = await _departmentRepository.Get(parentId, cancellationToken);
+            if(parent is null)
+            {
+                return DepartmentErrors.ParentDepartmentNotFound(parentId.Value);
+            }
         }
-        
+
         department = await _departmentRepository.GetByNameAndParentId(title, parentId, cancellationToken);
         if (department is not null)
         {
             return DepartmentErrors.AlreadyExist(department.Id.Value);
         }
+
         department = Department.Create(title, parentId);
         await _departmentRepository.Create(department, cancellationToken);
         return Result<DepartmentResultResponse>.Success(DepartmentResultResponse.FromDomain(department));

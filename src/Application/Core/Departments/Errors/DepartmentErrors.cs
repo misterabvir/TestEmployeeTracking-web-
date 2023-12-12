@@ -22,6 +22,11 @@ public class DepartmentErrors
         new(error.Title, error.Message, error.Status);
 
     public static Error<DepartmentResultResponse> AlreadyExist(Guid value) =>
-        new("Department.AlreadyExist",  $"Department with same name and parent already exist with id {{{value}}}", ResultErrorStatus.BadRequest);
+        new("Department.AlreadyExist",  $"Department with same name already exist i parent with id {{{value}}}", ResultErrorStatus.BadRequest);
 
+    public static Error<DepartmentResultResponse> DepartmentAndParentSame(Guid value) =>
+        new("Department.DepartmentAndParentSame", $"Department  with id {{{value}}} can,t be itself parent", ResultErrorStatus.BadRequest);
+
+    public static Error<DepartmentResultResponse> ParentDepartmentNotFound(Guid value)
+        => new("Department.ParentDepartmentNotFound", $"Parent department with id {{{value}}} not found", ResultErrorStatus.BadRequest);
 }

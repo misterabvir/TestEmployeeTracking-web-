@@ -36,6 +36,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeService", "src\Infrastr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepositoriesTest", "tests\RepositoriesTest\RepositoriesTest.csproj", "{228DF41B-8826-4B79-99AD-C4C76E8404E8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationTests", "tests\ApplicationTests\ApplicationTests.csproj", "{78129B2A-A7E7-476B-A3BA-8C35B65877A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A5DCC07-3F88-4300-AEB0-127F4A585BB8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +73,10 @@ Global
 		{228DF41B-8826-4B79-99AD-C4C76E8404E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{228DF41B-8826-4B79-99AD-C4C76E8404E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{228DF41B-8826-4B79-99AD-C4C76E8404E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78129B2A-A7E7-476B-A3BA-8C35B65877A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78129B2A-A7E7-476B-A3BA-8C35B65877A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78129B2A-A7E7-476B-A3BA-8C35B65877A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78129B2A-A7E7-476B-A3BA-8C35B65877A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +94,7 @@ Global
 		{6357C961-FE5A-4BD7-963B-AE7BD9633B18} = {495455DA-B53D-476D-BE0D-58D1C16F172B}
 		{CF29EC22-6332-4B13-AA19-A627259A49B5} = {F1D794AD-05CA-417D-823B-71BE97FFBC3A}
 		{228DF41B-8826-4B79-99AD-C4C76E8404E8} = {52D4217E-417D-4D19-9BC4-FACFA35A23F7}
+		{78129B2A-A7E7-476B-A3BA-8C35B65877A6} = {52D4217E-417D-4D19-9BC4-FACFA35A23F7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {821BC8D2-109C-4D60-A3AD-9374730BB1E9}

@@ -9,6 +9,6 @@ public class CreateDepartmentCommandRequestValidator : AbstractValidator<CreateD
     public CreateDepartmentCommandRequestValidator()
     {
         RuleFor(x => x.Title).NotNull().NotEmpty().MinimumLength(MinimumTitleLength);
-        RuleFor(x => x.ParentDepartmentId).NotEmpty().When(x => x is not null);
+        RuleFor(x => x.ParentDepartmentId).NotEqual(Guid.Empty).When(x => x is not null);
     }
 }

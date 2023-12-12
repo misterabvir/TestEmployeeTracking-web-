@@ -2,7 +2,7 @@ using Entities.Histories;
 
 namespace ApplicationCore.Histories.Responses;
 
-public sealed class HistoryResultResponse
+public sealed record HistoryResultResponse
 {
     private HistoryResultResponse() { }
     public Guid Id { get; private set; }

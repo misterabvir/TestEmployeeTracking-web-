@@ -60,28 +60,29 @@ public class ChangeDepartmentCommandHandler : ICommandHandler<ChangeDepartmentCo
             return EmployeeErrors.AlreadyInDepartment(employeeId.Value);
         }
 
+        var result = _employeeService.ChangeDepartment(employee, departmentId);
+        if (result.IsFailure)
+        {
+            return EmployeeErrors.UnexpectedError(result.Error);
+        }
+
         History? last = await _historyRepository.Get(employeeId, employee.DepartmentId, cancellationToken);
         if (last is not null)
         {
-            var updated = _historyService.Complete(last, _dateTimeService.Today);
+            var complete = _historyService.Complete(last, _dateTimeService.Today);
 
-            if (updated.IsFailure)
+            if (complete.IsFailure)
             {
-                return EmployeeErrors.UnexpectedError(updated.Error);
+                return EmployeeErrors.UnexpectedError(complete.Error);
             }
-            last = updated.Value!;
+            last = complete.Value!;
             await _historyRepository.Update(last, cancellationToken);
         }
 
-        var result = _employeeService.ChangeDepartment(employee, departmentId);
-        if(result.IsFailure)
-        {
-            return EmployeeErrors.UnexpectedError(result.Error);   
-        }
-
         last = History.Create(employeeId, departmentId, _dateTimeService.Today);
-        await _historyRepository.Create(last, cancellationToken);
         await _employeeRepository.Update(employee, cancellationToken);
+        await _historyRepository.Create(last, cancellationToken);
         return Result<EmployeeResultResponse>.Success(EmployeeResultResponse.FromDomain(employee));
     }
 }
+

@@ -2,7 +2,7 @@
 
 namespace ApplicationCore.Employees.Responses;
 
-public sealed class EmployeeResultResponse
+public sealed record EmployeeResultResponse
 {
     private EmployeeResultResponse() { }
     

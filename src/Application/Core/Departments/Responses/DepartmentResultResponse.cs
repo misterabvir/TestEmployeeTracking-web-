@@ -2,7 +2,7 @@ using Entities.Departments;
 
 namespace ApplicationCore.Departments.Responses;
 
-public sealed class DepartmentResultResponse
+public sealed record DepartmentResultResponse
 {
     public Guid Id { get; private  set; }
     public Guid? ParentId { get; private  set; }
