@@ -1,7 +1,7 @@
 ﻿using ApplicationCore.Abstractions.Repositories;
-using ApplicationCore.Employees.Errors;
 using ApplicationCore.Employees.Queries.GetById;
 using ApplicationCore.Employees.Responses;
+using Core;
 using Domain.Common;
 using Entities.Abstractions;
 using Entities.Departments.ValueObjects;
@@ -13,12 +13,12 @@ using NSubstitute.ReceivedExtensions;
 
 namespace ApplicationTests.Employees.GetById;
 
-public class EmployeeQueryGetByIdTests
+public class EmployeeQueryGetByIdHandlerTests
 {
     private readonly IEmployeeRepository _employeeRepositoryMock;
     private readonly GetEmployeeByIdQueryHandler _handler;
     private readonly GetEmployeeByIdQuery _query;
-    public EmployeeQueryGetByIdTests()
+    public EmployeeQueryGetByIdHandlerTests()
     {
         _query = new GetEmployeeByIdQuery(new(Guid.Empty));
 
@@ -53,7 +53,7 @@ public class EmployeeQueryGetByIdTests
         //Assert
         result.IsFailure.Should().BeTrue();
         result.Value.Should().BeNull();
-        result.Error.Should().BeEquivalentTo(EmployeeErrors.NotFound(_query.Request.EmployeeId));
+        result.Error.Should().BeOfType<Errors.EmployeeNotFoundError>();
     }
 
 

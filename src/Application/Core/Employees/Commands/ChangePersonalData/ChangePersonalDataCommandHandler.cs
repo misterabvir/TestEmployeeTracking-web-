@@ -2,7 +2,7 @@ using ApplicationCore.Abstractions.Common;
 using ApplicationCore.Abstractions.Repositories;
 using Domain.Common;
 using ApplicationCore.Employees.Responses;
-using ApplicationCore.Employees.Errors;
+using static Core.Errors;
 using Entities.Employees;
 using Entities.Employees.ValueObjects;
 using Entities.Abstractions.Services;
@@ -26,7 +26,7 @@ public class ChangePersonalDataCommandHandler : ICommandHandler<ChangePersonalDa
         Employee? employee = await _employeeRepository.Get(employeeId, cancellationToken);
         if (employee is null)
         {
-            return EmployeeErrors.NotFound(employeeId.Value);
+            return new EmployeeNotFoundError(employeeId.Value);
         }
         
         LastName lastName = LastName.Create(command.Request.LastName);
@@ -35,7 +35,7 @@ public class ChangePersonalDataCommandHandler : ICommandHandler<ChangePersonalDa
         var result = _employeeService.ChangePersonalData(employee, lastName, firstName);
         if(result.IsFailure)
         {
-            return EmployeeErrors.UnexpectedError(result.Error);
+            return new EmployeeUnexpectedError(result.Error);
         }
         
         await _employeeRepository.Update(employee, cancellationToken);

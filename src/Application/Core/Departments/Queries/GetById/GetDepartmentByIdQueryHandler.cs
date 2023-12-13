@@ -1,7 +1,7 @@
 using ApplicationCore.Abstractions.Common;
 using ApplicationCore.Abstractions.Repositories;
 using Domain.Common;
-using ApplicationCore.Departments.Errors;
+using static Core.Errors;
 using ApplicationCore.Departments.Responses;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
@@ -24,7 +24,7 @@ public class GetDepartmentByIdQueryHandler : IQueryHandler<GetDepartmentByIdQuer
         Department? department = await _departmentRepository.Get(departmentId, cancellationToken);
         if (department is null)
         {
-            return DepartmentErrors.NotFound(departmentId.Value);
+            return new DepartmentNotFoundError(departmentId.Value);
         }
         return Result<DepartmentResultResponse>.Success(DepartmentResultResponse.FromDomain(department));
     }

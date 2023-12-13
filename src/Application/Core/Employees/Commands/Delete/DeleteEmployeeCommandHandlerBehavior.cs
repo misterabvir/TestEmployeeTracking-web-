@@ -1,5 +1,5 @@
 using Domain.Common;
-using ApplicationCore.Employees.Errors;
+using static Core.Errors;
 using MediatR;
 
 namespace ApplicationCore.Employees.Commands.Delete;
@@ -13,7 +13,7 @@ public class DeleteEmployeeCommandHandlerBehavior : IPipelineBehavior<DeleteEmpl
         var validator = new DeleteEmployeeCommandRequestValidator();
         var result = await validator.ValidateAsync(command.Request, cancellationToken);
         if (!result.IsValid)
-            return (Error)EmployeeErrors.ValidationError(result);
+            return (Error)new EmployeeValidationError(result);
         return await next();
     }
 }

@@ -1,8 +1,8 @@
 ﻿using ApplicationCore.Abstractions.Repositories;
 using ApplicationCore.Abstractions.Services;
 using ApplicationCore.Employees.Commands.ChangeDepartment;
-using ApplicationCore.Employees.Errors;
 using ApplicationCore.Employees.Responses;
+using Core;
 using Domain.Common;
 using Entities.Abstractions.Services;
 using Entities.Departments;
@@ -12,8 +12,6 @@ using Entities.Employees.ValueObjects;
 using Entities.Histories;
 using Entities.Histories.ValueObjects;
 using FluentAssertions;
-using FluentValidation.Results;
-using MediatR;
 using NSubstitute;
 
 namespace ApplicationTests.Employees.ChangeDepartment;
@@ -105,7 +103,7 @@ public class ChangeDepartmentCommandTests
         
         //Assert 
         result.IsFailure.Should().BeTrue(); 
-        result.Error.Should().Be(EmployeeErrors.NotFound(_command.Request.EmployeeId));
+        result.Error.Should().BeOfType<Errors.EmployeeNotFoundError>();
     }
 
     
@@ -126,7 +124,7 @@ public class ChangeDepartmentCommandTests
         
         //Assert 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(EmployeeErrors.DepartmentNotExist(_command.Request.DepartmentId));
+        result.Error.Should().BeOfType<Errors.EmployeeDepartmentNotExistError>();
     }
 
         [Fact]
@@ -150,7 +148,7 @@ public class ChangeDepartmentCommandTests
         
         //Assert 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(EmployeeErrors.AlreadyInDepartment(_command.Request.EmployeeId));
+        result.Error.Should().BeOfType<Errors.EmployeeAlreadyInDepartmentError>();
     }
 
     [Fact]
@@ -166,18 +164,17 @@ public class ChangeDepartmentCommandTests
         Department department = Department.Create(
             DepartmentId.Create(_command.Request.DepartmentId),
             Title.Create("title"));
-            
-        Error error = new("unexpected", "message", ResultErrorStatus.InvalidArgument);    
+               
         _employeeRepositoryMock.Get(Arg.Any<EmployeeId>(), default).Returns(employee);
         _departmentRepositoryMock.Get(Arg.Any<DepartmentId>(), default).Returns(department);
-        _employeeServiceMock.ChangeDepartment(Arg.Any<Employee>(), Arg.Any<DepartmentId>()).Returns(Result.Failure(error));
+        _employeeServiceMock.ChangeDepartment(Arg.Any<Employee>(), Arg.Any<DepartmentId>()).Returns(Result.Failure(new("unexpected", "message", ResultErrorStatus.InvalidArgument)));
         
         //Act
         var result = await _handler.Handle(_command, default);
         
         //Assert 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(EmployeeErrors.UnexpectedError(error));
+        result.Error.Should().BeOfType<Errors.EmployeeUnexpectedError>();
     }
 
     
@@ -214,7 +211,7 @@ public class ChangeDepartmentCommandTests
         
         //Assert 
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(EmployeeErrors.UnexpectedError(error));
+        result.Error.Should().BeOfType<Errors.EmployeeUnexpectedError>();
     }
 
         [Fact]

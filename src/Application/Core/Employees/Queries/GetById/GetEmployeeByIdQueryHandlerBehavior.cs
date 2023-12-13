@@ -1,5 +1,5 @@
 ﻿using Domain.Common;
-using ApplicationCore.Employees.Errors;
+using static Core.Errors;
 using ApplicationCore.Employees.Responses;
 using MediatR;
 
@@ -16,7 +16,7 @@ public sealed class GetEmployeeByIdQueryHandlerBehavior
         var validator = new GetEmployeeByIdQueryRequestValidator();
         var result = await validator.ValidateAsync(request.Request, cancellationToken);
         if (!result.IsValid)  
-            return EmployeeErrors.ValidationError(result);
+            return new EmployeeValidationError(result);
 
         return await next();
     }

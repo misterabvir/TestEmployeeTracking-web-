@@ -1,7 +1,7 @@
 using Domain.Common;
-using ApplicationCore.Departments.Errors;
 using ApplicationCore.Departments.Responses;
 using MediatR;
+using static Core.Errors;
 
 namespace ApplicationCore.Departments.Queries.GetById;
 
@@ -12,7 +12,7 @@ public class GetDepartmentByIdQueryHandlerBehavior : IPipelineBehavior<GetDepart
         var validator = new GetDepartmentByIdQueryRequestValidator();
         var result = await validator.ValidateAsync(request.Request, cancellationToken);
         if (!result.IsValid)  
-            return DepartmentErrors.ValidationError(result);
+            return new DepartmentValidationError(result);
 
         return await next();
     }

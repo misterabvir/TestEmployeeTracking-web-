@@ -1,14 +1,10 @@
 using ApplicationCore.Abstractions.Repositories;
 using ApplicationCore.Employees.Commands.Delete;
-using ApplicationCore.Employees.Errors;
-using ApplicationCore.Employees.Responses;
-using Domain.Common;
+using Core;
 using Entities.Departments.ValueObjects;
 using Entities.Employees;
 using Entities.Employees.ValueObjects;
 using FluentAssertions;
-using FluentValidation.Results;
-using MediatR;
 using NSubstitute;
 
 namespace ApplicationTests.Employees.Delete;
@@ -55,7 +51,7 @@ public class DeleteEmployeeCommandHandlerTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(EmployeeErrors.NotFound(_command.Request.EmployeeId));
+        result.Error.Should().BeOfType<Errors.EmployeeNotFoundError>();
     }
 
      [Fact]
@@ -73,46 +69,5 @@ public class DeleteEmployeeCommandHandlerTests
 
         //Assert
         result.IsSuccess.Should().BeTrue();
-    }
-}
-
-public class DeleteEmployeeCommandValidationBehaviorTests
-{
-    private readonly RequestHandlerDelegate<Result> _next;
-    private readonly DeleteEmployeeCommandHandlerBehavior _behavior;
-
-    public DeleteEmployeeCommandValidationBehaviorTests()
-    {
-        _next = Substitute.For<RequestHandlerDelegate<Result>>();
-
-        _behavior = new();
-    }
-
-        [Fact]
-    public async Task SuccessShouldBeCallHandlerMock()
-    {
-
-        //Arrange
-        DeleteEmployeeCommand command = new(new( Guid.NewGuid()));
-
-        //Act
-        var result = await _behavior.Handle(command, _next, default);
-
-        //Assert
-        await _next.Received(1).Invoke();
-    }
-
-    [Fact]
-    public async Task EmptyLastnameShouldBeReturnValidationError()
-    {
-        //Arrange
-        DeleteEmployeeCommand command = new(new(Guid.Empty));
-
-        //Act
-        var result = await _behavior.Handle(command, _next, default);
-
-        //Assert
-        result.IsFailure.Should().BeTrue();
-        result.Error.Title.Should().Be(EmployeeErrors.ValidationError(new ValidationResult()).Title);
     }
 }

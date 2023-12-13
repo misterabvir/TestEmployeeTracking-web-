@@ -4,7 +4,7 @@ using Domain.Common;
 using ApplicationCore.Departments.Responses;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
-using ApplicationCore.Departments.Errors;
+using static Core.Errors;
 
 namespace ApplicationCore.Departments.Commands.Create;
 
@@ -28,14 +28,14 @@ public class CreateDepartmentCommandHandler : ICommandHandler<CreateDepartmentCo
             Department? parent = await _departmentRepository.Get(parentId, cancellationToken);
             if(parent is null)
             {
-                return DepartmentErrors.ParentDepartmentNotFound(parentId.Value);
+                return new DepartmentParentNotFoundError(command.Request.ParentDepartmentId.Value);
             }
         }
 
         department = await _departmentRepository.GetByNameAndParentId(title, parentId, cancellationToken);
         if (department is not null)
         {
-            return DepartmentErrors.AlreadyExist(department.Id.Value);
+            return new DepartmentAlreadyExistError(department.Id.Value);
         }
 
         department = Department.Create(title, parentId);

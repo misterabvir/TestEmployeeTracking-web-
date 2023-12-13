@@ -1,4 +1,4 @@
-using ApplicationCore.Histories.Errors;
+using static Core.Errors;
 using ApplicationCore.Histories.Responses;
 using Domain.Common;
 using FluentValidation.Results;
@@ -13,7 +13,7 @@ public class GetEmployeeHistoryQueryHandlerBehavior : IPipelineBehavior<GetEmplo
         GetEmployeeHistoryQueryRequestValidator validator = new();
         ValidationResult result = await validator.ValidateAsync(query.Request, cancellationToken);
         if (!result.IsValid)  
-            return HistoryErrors.ValidationError(result);
+            return new HistoryValidationError(result);
         return await next();
     }
 }

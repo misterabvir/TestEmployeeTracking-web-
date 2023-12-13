@@ -1,6 +1,6 @@
 using ApplicationCore.Abstractions.Common;
 using ApplicationCore.Abstractions.Repositories;
-using ApplicationCore.Histories.Errors;
+using static Core.Errors;
 using ApplicationCore.Histories.Responses;
 using Domain.Common;
 using Entities.Departments;
@@ -28,7 +28,7 @@ public class GetDepartmentHistoryQueryHandler : IQueryHandler<GetDepartmentHisto
         Department? department = await _departmentRepository.Get(departmentId, cancellationToken);
         if(department == null)
         {    
-            return HistoryErrors.DepartmentNotFound(departmentId);
+            return new HistoryDepartmentNotFoundError(departmentId.Value);
         }
         var result = await _historyRepository.GetDepartmentHistory(departmentId, cancellationToken);
         return Result<IEnumerable<HistoryResultResponse>>.Success(result.Select(x=>HistoryResultResponse.FromDomain(x)));

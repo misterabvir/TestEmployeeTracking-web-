@@ -1,7 +1,7 @@
 using Domain.Common;
-using ApplicationCore.Departments.Errors;
 using ApplicationCore.Departments.Responses;
 using MediatR;
+using static Core.Errors;
 
 namespace ApplicationCore.Departments.Commands.ChangeTitle;
 
@@ -12,8 +12,7 @@ public class ChangeDepartmentTitleCommandHandlerBehavior : IPipelineBehavior<Cha
         var validator = new ChangeDepartmentTitleCommandRequestValidator();
         var result = await validator.ValidateAsync(command.Request, cancellationToken);
         if (!result.IsValid)
-            return DepartmentErrors.ValidationError(result);
-
+            return new DepartmentValidationError(result);
         return await next();
     }
 }

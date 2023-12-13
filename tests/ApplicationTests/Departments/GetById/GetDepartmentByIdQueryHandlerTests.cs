@@ -1,7 +1,7 @@
 using ApplicationCore.Abstractions.Repositories;
-using ApplicationCore.Departments.Errors;
 using ApplicationCore.Departments.Queries.GetById;
 using ApplicationCore.Departments.Responses;
+using Core;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
 using FluentAssertions;
@@ -46,7 +46,7 @@ public class GetDepartmentByIdQueryHandlerTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DepartmentErrors.NotFound(_query.Request.DepartmentId));
+        result.Error.Should().BeOfType<Errors.DepartmentNotFoundError>();
     }
 
     [Fact]

@@ -1,9 +1,9 @@
 using ApplicationCore.Abstractions.Common;
 using ApplicationCore.Abstractions.Repositories;
 using Domain.Common;
-using ApplicationCore.Departments.Errors;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
+using static Core.Errors;
 
 namespace ApplicationCore.Departments.Commands.Delete;
 
@@ -24,13 +24,13 @@ public class DeleteDepartmentCommandHandler : ICommandHandler<DeleteDepartmentCo
         Department? department = await _departmentRepository.Get(departmentId, cancellationToken);
         if (department is null)
         {
-            return (Error)DepartmentErrors.NotFound(departmentId.Value);
+            return (Error)new DepartmentNotFoundError(departmentId.Value);
         }
 
         var employees = await _employeeRepository.GetByDepartmentId(departmentId, cancellationToken);
         if (employees.Any())
         {
-            return DepartmentErrors.CantDeleteNotEmptyDepartment(departmentId.Value);
+            return new DepartmentCantDeleteNotEmptyError(departmentId.Value);
         }
 
         await _departmentRepository.Delete(departmentId, cancellationToken);

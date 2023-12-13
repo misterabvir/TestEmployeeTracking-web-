@@ -3,7 +3,7 @@ using ApplicationCore.Abstractions.Repositories;
 using ApplicationCore.Abstractions.Services;
 using Domain.Common;
 using ApplicationCore.Employees.Responses;
-using ApplicationCore.Employees.Errors;
+using static Core.Errors;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
 using Entities.Employees;
@@ -43,7 +43,7 @@ public class CreateEmployeeCommandHandler :
         Department? department = await _departmentRepository.Get(departmentId, cancellationToken);
         if (department is null)
         {
-            return EmployeeErrors.DepartmentNotExist(departmentId.Value);
+            return new EmployeeDepartmentNotExistError(departmentId.Value);
         }
 
         Employee employee = Employee.Create(lastName, firstName, departmentId);

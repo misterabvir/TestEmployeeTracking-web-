@@ -1,9 +1,7 @@
-﻿using ApplicationCore.Employees.Errors;
-using ApplicationCore.Employees.Queries.GetById;
+﻿using ApplicationCore.Employees.Queries.GetById;
 using ApplicationCore.Employees.Responses;
 using Domain.Common;
 using FluentAssertions;
-using FluentValidation.Results;
 using MediatR;
 using NSubstitute;
 using NSubstitute.ReceivedExtensions;
@@ -49,6 +47,6 @@ public class EmployeeGetByIdQueryValidationBehaviorTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Title.Should().Be(EmployeeErrors.ValidationError(new ValidationResult()).Title);
+        result.Error.Should().BeOfType<Core.Errors.EmployeeValidationError>();
     }
 }

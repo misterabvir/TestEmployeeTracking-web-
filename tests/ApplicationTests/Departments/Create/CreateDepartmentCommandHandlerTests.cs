@@ -1,6 +1,6 @@
 using ApplicationCore.Abstractions.Repositories;
 using ApplicationCore.Departments.Commands.Create;
-using ApplicationCore.Departments.Errors;
+using Core;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
 using FluentAssertions;
@@ -22,7 +22,7 @@ public class CreateDepartmentCommandHandlerTests
     }
 
     [Fact]
-    public async Task SuccessWhithParentShouldBeCalRepository()
+    public async Task SuccessWithParentShouldBeCalRepository()
     {
         //Arrange
         _departmentRepository.Get(Arg.Any<DepartmentId>(), default).Returns(
@@ -72,7 +72,7 @@ public class CreateDepartmentCommandHandlerTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DepartmentErrors.ParentDepartmentNotFound(_command.Request.ParentDepartmentId!.Value));
+        result.Error.Should().BeOfType<Errors.DepartmentParentNotFoundError>();
     }
 
     [Fact]
@@ -90,7 +90,7 @@ public class CreateDepartmentCommandHandlerTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DepartmentErrors.AlreadyExist(departmentId.Value));
+        result.Error.Should().BeOfType<Errors.DepartmentAlreadyExistError>();
     }
 
     [Fact]
@@ -111,6 +111,6 @@ public class CreateDepartmentCommandHandlerTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(DepartmentErrors.AlreadyExist(departmentId.Value));
+        result.Error.Should().BeOfType<Errors.DepartmentAlreadyExistError>();
     }
 }

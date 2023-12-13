@@ -1,6 +1,6 @@
 using Domain.Common;
 using ApplicationCore.Employees.Responses;
-using ApplicationCore.Employees.Errors;
+using static Core.Errors;
 using MediatR;
 
 namespace ApplicationCore.Employees.Commands.ChangeDepartment;
@@ -12,7 +12,7 @@ public class ChangeDepartmentCommandBehavior : IPipelineBehavior<ChangeDepartmen
         var validator = new ChangeDepartmentCommandRequestValidator();
         var result = await validator.ValidateAsync(command.Request, cancellationToken);
         if (!result.IsValid)
-            return EmployeeErrors.ValidationError(result);
+            return new EmployeeValidationError(result);
 
         return await next();
     }

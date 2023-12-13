@@ -8,7 +8,7 @@ public class SetDepartmentParentCommandRequestValidator : AbstractValidator<SetD
     {
         RuleFor(x => x.DepartmentId).NotNull().NotEmpty();
         RuleFor(x => x.ParentDepartmentId)
-            .NotEmpty().When(x => x != null)
+            .NotEqual(Guid.Empty).When(x => x != null)
             .NotEqual(x => x.DepartmentId).When(x => x != null);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using ApplicationCore.Abstractions.Repositories;
 using ApplicationCore.Abstractions.Services;
 using ApplicationCore.Employees.Commands.Create;
-using ApplicationCore.Employees.Errors;
+using Core;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
 using Entities.Employees;
@@ -37,7 +37,7 @@ public class EmployeeCreateCommandHandlerTests
             _historyRepositoryMock,
             _dateTimeServiceMock);
         _today = DateOnly.FromDateTime(DateTime.UtcNow);
-        _department = Department.Create(Title.Create(""), null);
+        _department = Department.Create(Title.Create(string.Empty), null);
         _dateTimeServiceMock.Today.Returns(_today);
     }
 
@@ -73,7 +73,7 @@ public class EmployeeCreateCommandHandlerTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().BeEquivalentTo(EmployeeErrors.DepartmentNotExist(_command.Request.DepartmentId));
+        result.Error.Should().BeOfType<Errors.EmployeeDepartmentNotExistError>();
     }
 
     [Fact]

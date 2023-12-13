@@ -1,11 +1,11 @@
 using ApplicationCore.Abstractions.Common;
 using ApplicationCore.Abstractions.Repositories;
 using Domain.Common;
-using ApplicationCore.Departments.Errors;
 using ApplicationCore.Departments.Responses;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
 using Entities.Abstractions.Services;
+using static Core.Errors;
 
 namespace ApplicationCore.Departments.Commands.SetParent;
 
@@ -25,13 +25,14 @@ public class SetDepartmentParentCommandHandler : ICommandHandler<SetDepartmentPa
         Department? department = await _departmentRepository.Get(departmentId, cancellationToken);
         if(department is null)
         {
-            return DepartmentErrors.NotFound(departmentId.Value);
+            return new DepartmentNotFoundError(departmentId.Value);
         }
 
         if(department.ParentId is null && command.Request.ParentDepartmentId is null)
         {
-            return DepartmentErrors.AlreadyRoot(departmentId.Value);
+            return new DepartmentAlreadyRootError(departmentId.Value);
         }
+        
         DepartmentId? parentId = null;
         
         if(command.Request.ParentDepartmentId is not null)
@@ -40,13 +41,13 @@ public class SetDepartmentParentCommandHandler : ICommandHandler<SetDepartmentPa
             Department? parent = await _departmentRepository.Get(parentId, cancellationToken);
             if(parent is null)
             {
-                return DepartmentErrors.NotFound(parentId.Value);
+                return new DepartmentParentNotFoundError(parentId.Value);
             }
         }
         var result = _departmentService.ChangeParentDepartment(department, parentId); 
         if(result.IsFailure)
         {
-            return DepartmentErrors.Unexpected(result.Error);
+            return new DepartmentUnexpectedError(result.Error);
         }
         
         await _departmentRepository.Update(department, cancellationToken);

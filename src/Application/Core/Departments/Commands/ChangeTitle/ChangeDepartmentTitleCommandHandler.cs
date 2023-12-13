@@ -1,11 +1,11 @@
 using ApplicationCore.Abstractions.Common;
 using ApplicationCore.Abstractions.Repositories;
 using Domain.Common;
-using ApplicationCore.Departments.Errors;
 using ApplicationCore.Departments.Responses;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
 using Entities.Abstractions.Services;
+using static Core.Errors;
 
 namespace ApplicationCore.Departments.Commands.ChangeTitle;
 
@@ -26,7 +26,7 @@ public class ChangeDepartmentTitleCommandHandler : ICommandHandler<ChangeDepartm
         Department? department = await _departmentRepository.Get(departmentId, cancellationToken);
         if(department is null)
         {
-            return DepartmentErrors.NotFound(departmentId.Value);
+            return new DepartmentNotFoundError(departmentId.Value);
         }
         
         Title title = Title.Create(command.Request.Title);
@@ -34,7 +34,7 @@ public class ChangeDepartmentTitleCommandHandler : ICommandHandler<ChangeDepartm
         var result = _departmentService.ChangeTitle(department, title);
         if(result.IsFailure)
         {
-            return DepartmentErrors.Unexpected(result.Error);
+            return new DepartmentUnexpectedError(result.Error);
         }
 
         await _departmentRepository.Update(department, cancellationToken);

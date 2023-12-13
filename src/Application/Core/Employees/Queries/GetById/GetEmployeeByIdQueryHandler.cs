@@ -1,6 +1,6 @@
 ﻿using ApplicationCore.Abstractions.Common;
 using ApplicationCore.Abstractions.Repositories;
-using ApplicationCore.Employees.Errors;
+using static Core.Errors;
 using ApplicationCore.Employees.Responses;
 using Domain.Common;
 using Entities.Employees.ValueObjects;
@@ -24,7 +24,7 @@ public class GetEmployeeByIdQueryHandler : IQueryHandler<GetEmployeeByIdQuery, R
         var result = await _repository.Get(employeeId, cancellationToken);
         if (result is null)
         {
-            return EmployeeErrors.NotFound(query.Request.EmployeeId);
+            return new EmployeeNotFoundError(query.Request.EmployeeId);
         }
 
         return Result<EmployeeResultResponse>.Success(EmployeeResultResponse.FromDomain(result));

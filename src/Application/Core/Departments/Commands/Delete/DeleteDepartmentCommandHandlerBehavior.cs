@@ -1,5 +1,5 @@
 using Domain.Common;
-using ApplicationCore.Departments.Errors;
+using static Core.Errors;
 using MediatR;
 
 namespace ApplicationCore.Departments.Commands.Delete;
@@ -11,7 +11,7 @@ public class DeleteDepartmentCommandHandlerBehavior : IPipelineBehavior<DeleteDe
         var validator = new DeleteDepartmentCommandRequestValidator();
         var result = await validator.ValidateAsync(command.Request, cancellationToken);
         if (!result.IsValid)  
-            return (Error)DepartmentErrors.ValidationError(result);
+            return (Error)new DepartmentValidationError(result);
 
         return await next();
     }

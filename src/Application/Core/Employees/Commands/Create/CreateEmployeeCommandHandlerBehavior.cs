@@ -1,7 +1,7 @@
 ﻿using Domain.Common;
 using ApplicationCore.Employees.Responses;
-using ApplicationCore.Employees.Errors;
 using MediatR;
+using static Core.Errors;
 
 namespace ApplicationCore.Employees.Commands.Create;
 
@@ -13,7 +13,7 @@ public class CreateEmployeeCommandHandlerBehavior
         var validator = new CreateEmployeeCommandRequestValidator();
         var result = await validator.ValidateAsync(command.Request, cancellationToken);
         if (!result.IsValid)
-            return EmployeeErrors.ValidationError(result);
+            return new EmployeeValidationError(result);
 
         return await next();
     }

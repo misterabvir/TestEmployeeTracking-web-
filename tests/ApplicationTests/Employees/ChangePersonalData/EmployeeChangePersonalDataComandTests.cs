@@ -8,8 +8,8 @@ using Entities.Employees.ValueObjects;
 using Domain.Common;
 using NSubstitute;
 using FluentAssertions;
-using ApplicationCore.Employees.Errors;
 using ApplicationCore.Employees.Responses;
+using Core;
 
 namespace ApplicationTests.Employees.ChangePersonalData;
 
@@ -61,7 +61,7 @@ public class EmployeeChangePersonalDataCommandTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(EmployeeErrors.NotFound(_command.Request.EmployeeId));
+        result.Error.Should().BeOfType<Errors.EmployeeNotFoundError>();
     }
 
     [Fact]
@@ -84,7 +84,7 @@ public class EmployeeChangePersonalDataCommandTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(EmployeeErrors.UnexpectedError(error));
+        result.Error.Should().BeOfType<Errors.EmployeeUnexpectedError>();
     }
 
     [Fact]

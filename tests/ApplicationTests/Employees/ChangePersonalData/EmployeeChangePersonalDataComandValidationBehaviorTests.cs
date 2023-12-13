@@ -2,7 +2,6 @@
 using Domain.Common;
 using NSubstitute;
 using FluentAssertions;
-using ApplicationCore.Employees.Errors;
 using ApplicationCore.Employees.Responses;
 using MediatR;
 using FluentValidation.Results;
@@ -44,7 +43,7 @@ public class EmployeeChangePersonalDataCommandValidationBehaviorTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Title.Should().Be(EmployeeErrors.ValidationError(new ValidationResult()).Title);
+        result.Error.Should().BeOfType<Core.Errors.EmployeeValidationError>();
     }
 
     [Fact]
@@ -58,7 +57,7 @@ public class EmployeeChangePersonalDataCommandValidationBehaviorTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Title.Should().Be(EmployeeErrors.ValidationError(new ValidationResult()).Title);
+        result.Error.Should().BeOfType<Core.Errors.EmployeeValidationError>();
     }
 
     [Fact]
@@ -74,7 +73,7 @@ public class EmployeeChangePersonalDataCommandValidationBehaviorTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Title.Should().Be(EmployeeErrors.ValidationError(new ValidationResult()).Title);
+        result.Error.Should().BeOfType<Core.Errors.EmployeeValidationError>();
     }
 
     [Fact]
@@ -88,7 +87,7 @@ public class EmployeeChangePersonalDataCommandValidationBehaviorTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Title.Should().Be(EmployeeErrors.ValidationError(new ValidationResult()).Title);
+        result.Error.Should().BeOfType<Core.Errors.EmployeeValidationError>();
     }
 
     [Fact]
@@ -102,7 +101,7 @@ public class EmployeeChangePersonalDataCommandValidationBehaviorTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Title.Should().Be(EmployeeErrors.ValidationError(new ValidationResult()).Title);
+        result.Error.Should().BeOfType<Core.Errors.EmployeeValidationError>();
     }
 
 
@@ -119,7 +118,7 @@ public class EmployeeChangePersonalDataCommandValidationBehaviorTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Title.Should().Be(EmployeeErrors.ValidationError(new ValidationResult()).Title);
+        result.Error.Should().BeOfType<Core.Errors.EmployeeValidationError>();
     }
 
     [Fact]
@@ -133,6 +132,6 @@ public class EmployeeChangePersonalDataCommandValidationBehaviorTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Title.Should().Be(EmployeeErrors.ValidationError(new ValidationResult()).Title);
+        result.Error.Should().BeOfType<Core.Errors.EmployeeValidationError>();
     }
 }

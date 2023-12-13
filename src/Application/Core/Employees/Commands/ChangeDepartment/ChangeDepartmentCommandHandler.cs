@@ -3,7 +3,7 @@ using ApplicationCore.Abstractions.Repositories;
 using ApplicationCore.Abstractions.Services;
 using Domain.Common;
 using ApplicationCore.Employees.Responses;
-using ApplicationCore.Employees.Errors;
+using static Core.Errors;
 using Entities.Departments;
 using Entities.Departments.ValueObjects;
 using Entities.Employees;
@@ -44,7 +44,7 @@ public class ChangeDepartmentCommandHandler : ICommandHandler<ChangeDepartmentCo
         Employee? employee = await _employeeRepository.Get(employeeId, cancellationToken);
         if (employee is null)
         {
-            return EmployeeErrors.NotFound(employeeId.Value);
+            return new EmployeeNotFoundError(employeeId.Value);
         }
 
         DepartmentId departmentId = DepartmentId.Create(command.Request.DepartmentId);
@@ -52,18 +52,18 @@ public class ChangeDepartmentCommandHandler : ICommandHandler<ChangeDepartmentCo
 
         if (department is null)
         {
-            return EmployeeErrors.DepartmentNotExist(departmentId.Value);
+            return new EmployeeDepartmentNotExistError(departmentId.Value);
         }
 
         if (employee.DepartmentId == departmentId)
         {
-            return EmployeeErrors.AlreadyInDepartment(employeeId.Value);
+            return new EmployeeAlreadyInDepartmentError(employeeId.Value);
         }
 
         var result = _employeeService.ChangeDepartment(employee, departmentId);
         if (result.IsFailure)
         {
-            return EmployeeErrors.UnexpectedError(result.Error);
+            return new EmployeeUnexpectedError(result.Error);
         }
 
         History? last = await _historyRepository.Get(employeeId, employee.DepartmentId, cancellationToken);
@@ -73,7 +73,7 @@ public class ChangeDepartmentCommandHandler : ICommandHandler<ChangeDepartmentCo
 
             if (complete.IsFailure)
             {
-                return EmployeeErrors.UnexpectedError(complete.Error);
+                return new EmployeeUnexpectedError(complete.Error);
             }
             last = complete.Value!;
             await _historyRepository.Update(last, cancellationToken);

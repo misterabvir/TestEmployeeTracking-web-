@@ -1,6 +1,6 @@
 using ApplicationCore.Employees.Commands.ChangeDepartment;
-using ApplicationCore.Employees.Errors;
 using ApplicationCore.Employees.Responses;
+using Core;
 using Domain.Common;
 using FluentAssertions;
 using FluentValidation.Results;
@@ -44,7 +44,7 @@ public class ChangeDepartmentCommandValidationBehaviorTests{
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Title.Should().Be(EmployeeErrors.ValidationError(new ValidationResult()).Title);
+        result.Error.Should().BeOfType<Errors.EmployeeValidationError>();
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public class ChangeDepartmentCommandValidationBehaviorTests{
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Title.Should().Be(EmployeeErrors.ValidationError(new ValidationResult()).Title);
+        result.Error.Should().BeOfType<Errors.EmployeeValidationError>();
     }
 }
 }

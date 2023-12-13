@@ -1,9 +1,8 @@
-using ApplicationCore.Departments.Errors;
 using ApplicationCore.Departments.Queries.GetById;
 using ApplicationCore.Departments.Responses;
+using Core;
 using Domain.Common;
 using FluentAssertions;
-using FluentValidation.Results;
 using MediatR;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
@@ -46,6 +45,6 @@ public class GetDepartmentByIdQueryValidationBehaviorTests
 
         //Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Title.Should().Be(DepartmentErrors.ValidationError(new ValidationResult()).Title);
+        result.Error.Should().BeOfType<Errors.DepartmentValidationError>();
     }
 }

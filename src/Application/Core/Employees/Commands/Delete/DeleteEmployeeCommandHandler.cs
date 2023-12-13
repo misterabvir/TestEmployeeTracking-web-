@@ -1,7 +1,7 @@
 using ApplicationCore.Abstractions.Common;
 using ApplicationCore.Abstractions.Repositories;
 using Domain.Common;
-using ApplicationCore.Employees.Errors;
+using static Core.Errors;
 using Entities.Employees;
 using Entities.Employees.ValueObjects;
 
@@ -26,7 +26,7 @@ public class DeleteEmployeeCommandHandler :
         Employee? employee = await _employeeRepository.Get(employeeId, cancellationToken);
         if(employee is null)
         {
-            return (Error)EmployeeErrors.NotFound(employeeId.Value);
+            return (Error)new EmployeeNotFoundError(employeeId.Value);
         }
         await _employeeRepository.Delete(employeeId, cancellationToken);
         return Result.Success();

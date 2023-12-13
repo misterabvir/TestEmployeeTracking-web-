@@ -1,5 +1,5 @@
 using Domain.Common;
-using ApplicationCore.Departments.Errors;
+using static Core.Errors;
 using ApplicationCore.Departments.Responses;
 using MediatR;
 
@@ -12,7 +12,7 @@ public class CreateDepartmentCommandHandlerBehavior : IPipelineBehavior<CreateDe
         var validator = new CreateDepartmentCommandRequestValidator();
         var result = await validator.ValidateAsync(request.Request, cancellationToken);
         if (!result.IsValid)
-            return DepartmentErrors.ValidationError(result);
+            return new DepartmentValidationError(result);
 
         return await next();
     }
