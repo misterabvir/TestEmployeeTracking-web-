@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+option csharp_namespace = "Client";
+
+package emmployees;
+
+service EmployeesProto {    
+    rpc GetAll (EmployeeAllRequest) returns (MultipleEmployeeResponse);
+    rpc GetById (EmployeeByIdRequest) returns (EmployeeResponse);
+    rpc Create (EmployeeCreateRequest) returns (EmployeeResponse);
+    rpc ChangePersonalData (EmployeeChangePersonalDataRequest) returns (EmployeeResponse);
+    rpc ChangeDepartment (EmployeeChangeDepartmentRequest) returns (EmployeeResponse);
+    rpc Delete (EmployeeDeleteRequest) returns (EmployeeEmptyResponse);
+  }
+
+  message EmployeeAllRequest {}
+
+  message EmployeeByIdRequest{
+    string id = 1;
+  }
+
+  message EmployeeCreateRequest{
+      string lastname = 1;
+      string firstname = 2;
+      string department_id = 3;
+  }
+
+  message EmployeeChangePersonalDataRequest{
+    string id = 1;
+    string new_lastname = 2;
+    string new_firstname = 3;
+  }
+
+  message EmployeeChangeDepartmentRequest{
+    string id = 1;
+    string new_department_id = 2;
+  } 
+
+  message EmployeeDeleteRequest{
+    string id = 1;
+  }
+
+  message MultipleEmployeeResponse{
+      repeated EmployeeResponse Employees = 1;
+  }
+
+  message EmployeeResponse{
+    string id = 1;
+    string lastname = 2;
+    string firstname = 3;
+    string department_id = 4;
+  }
+
+  message EmployeeEmptyResponse{
+
+  }

@@ -1,0 +1,54 @@
+﻿@page "/departments"
+@using Google.Protobuf.WellKnownTypes
+@using Grpc.Core
+@inject GrpcChannel Channel
+
+<PageTitle>Departments</PageTitle>
+
+<h1>Departments</h1>
+
+
+@if (_departments == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ul class ="list-group">
+        @foreach(var department in _departments)
+        {
+            <li class="list-group-item">
+               <DepartmentNode Node="department"/>
+           </li>
+        }
+    </ul>
+}
+
+@code {
+    private List<Department>? _departments;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var client = new DepartmentsProto.DepartmentsProtoClient(Channel);
+        var result = await client.GetAllAsync(new DepartmentGetAllRequest());
+        _departments = GetTree(result.Departments);
+    }
+
+    internal static List<Department> GetTree(IEnumerable<DepartmentResponse> list,
+    string parentId = "")
+    {
+        var currents = list.Where(d => d.ParentId == parentId);
+        List<Department> departments = new();
+        foreach (var item in currents)
+        {
+            departments.Add(new()
+                {
+                    Id = item.Id,
+                    Title = item.Title,
+                    Children = GetTree(list, item.Id)
+                });
+        }
+        return departments;
+    }
+    
+}

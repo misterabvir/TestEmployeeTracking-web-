@@ -14,10 +14,7 @@ public class EmployeeService : EmployeesProto.EmployeesProtoBase
         _sender = sender;
     }
 
-    public override async Task GetAll(
-        AllEmployeeRequest request,
-        IServerStreamWriter<EmployeeResponse> responseStream,
-        ServerCallContext context)
+    public override async Task<MultipleEmployeeResponse> GetAll(EmployeeAllRequest request, ServerCallContext context)
     {
         var result = await _sender.Send(new GetAllEmployeeQuery());
         if (result.IsFailure)
@@ -25,16 +22,11 @@ public class EmployeeService : EmployeesProto.EmployeesProtoBase
             throw new RpcException(result.Error.GetStatus());
         }
 
-        var data = result.Value!.Select(x => x.ToResponse());
-
-        foreach (var row in data)
-        {
-            await responseStream.WriteAsync(row);
-        }
+        return result.Value!.ToResponse();
     }
 
     public override async Task<EmployeeResponse> GetById(
-        ByIdEmployeeRequest request, 
+        EmployeeByIdRequest request,
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultQuery());
@@ -46,7 +38,7 @@ public class EmployeeService : EmployeesProto.EmployeesProtoBase
     }
 
     public override async Task<EmployeeResponse> Create(
-        CreateEmployeeRequest request,
+        EmployeeCreateRequest request,
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
@@ -58,7 +50,7 @@ public class EmployeeService : EmployeesProto.EmployeesProtoBase
     }
 
     public async override Task<EmployeeResponse> ChangePersonalData(
-        ChangePersonalDataEmployeeRequest request,
+        EmployeeChangePersonalDataRequest request,
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
@@ -70,7 +62,7 @@ public class EmployeeService : EmployeesProto.EmployeesProtoBase
     }
 
     public async override Task<EmployeeResponse> ChangeDepartment(
-        ChangeDepartmentEmployeeRequest request,
+        EmployeeChangeDepartmentRequest request,
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
@@ -81,13 +73,13 @@ public class EmployeeService : EmployeesProto.EmployeesProtoBase
         return result.Value!.ToResponse();
     }
 
-    public async override Task<EmployeeDeleteResponse> Delete(DeleteEmployeeRequest request, ServerCallContext context)
+    public async override Task<EmployeeEmptyResponse> Delete(EmployeeDeleteRequest request, ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
         if (result.IsFailure)
         {
             throw new RpcException(result.Error.GetStatus());
         }
-        return new EmployeeDeleteResponse();
+        return new EmployeeEmptyResponse();
     }
 }

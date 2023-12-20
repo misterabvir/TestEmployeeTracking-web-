@@ -1,7 +1,8 @@
-﻿using Entities.Abstractions.Services;
-using Entities.Departments;
-using Entities.Employees;
+﻿using Core.Validations;
+using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace ApplicationCore;
 
@@ -10,7 +11,11 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddMediatR(options =>
-            options.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+            options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
         return services;
     }
 }

@@ -9,9 +9,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         string? connectionString = configuration.GetConnectionString("LocalDb");
         services.AddScoped((service) => new DbService(connectionString!));
+        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+        services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+        services.AddScoped<IHistoryRepository, HistoryRepository>();
         
         return services;
     }

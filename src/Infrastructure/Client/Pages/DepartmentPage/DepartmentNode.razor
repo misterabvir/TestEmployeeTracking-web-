@@ -1,0 +1,29 @@
+﻿@if (Node != null)
+{
+    <div>
+        <span class="align-middle" style="cursor: pointer">
+            @if (HasChildren)
+            {
+                <iconify-icon icon="ph:plus-fill" class="me-2 align-middle"></iconify-icon>
+            }
+            @Node.Title
+        </span>
+        @if (Node.Children != null && Node.Children.Any())
+        {
+            <ul class="list-group">
+                @foreach (var child in Node.Children)
+                {
+                    <li class="list-group-item">
+                        <DepartmentNode Node=@child />
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Department? Node { get; set; }
+    bool HasChildren => Node?.Children?.Count() > 0;
+}

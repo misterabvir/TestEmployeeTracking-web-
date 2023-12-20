@@ -1,0 +1,53 @@
+syntax = "proto3";
+option csharp_namespace = "Grpc";
+
+package departments;
+
+service DepartmentsProto {    
+    rpc GetAll (DepartmentGetAllRequest) returns (MultipleDepartmentResponse);
+    rpc GetById (DepartmentGetByIdRequest) returns (DepartmentResponse);
+    rpc Create (DepartmentCreateRequest) returns (DepartmentResponse);
+    rpc ChangeTitle (DepartmentChangeTitleRequest) returns (DepartmentResponse);
+    rpc ChangeParent (DepartmentChangeParentRequest) returns (DepartmentResponse);
+    rpc Delete (DepartmentDeleteRequest) returns (DepartmentEmptyResponse);
+  }
+
+
+  message DepartmentGetAllRequest {}
+
+  message DepartmentGetByIdRequest{
+    string id = 1;
+  }
+
+  message DepartmentCreateRequest{
+      string id = 1;
+      string title = 2;
+      string parent_id = 3;
+  }
+
+  message DepartmentChangeTitleRequest{
+      string id = 1;
+      string new_title = 2;
+  }
+
+  message DepartmentChangeParentRequest{
+    string id = 1;
+    string new_parent_id = 2;
+  } 
+
+  message DepartmentDeleteRequest{
+    string id = 1;
+  }
+    
+  message MultipleDepartmentResponse{
+      repeated DepartmentResponse departments = 1;
+  }
+
+  message DepartmentResponse{
+    string id = 1;
+    string title = 2;
+    string parent_id = 3;
+  }
+
+  message DepartmentEmptyResponse{
+  }

@@ -14,27 +14,18 @@ public sealed class DepartmentService : DepartmentsProto.DepartmentsProtoBase
         _sender = sender;
     }
 
-    public override async Task GetAll(
-        GetAllDepartmentRequest request, 
-        IServerStreamWriter<DepartmentResponse> responseStream, 
-        ServerCallContext context)
+    public override async Task<MultipleDepartmentResponse> GetAll(DepartmentGetAllRequest request, ServerCallContext context)
     {
         var result = await _sender.Send(new GetAllDepartmentsQuery());
         if (result.IsFailure)
         {
             throw new RpcException(result.Error.GetStatus());
         }
-
-        var data = result.Value!.Select(x => x.ToResponse());
-
-        foreach (var row in data)
-        {
-            await responseStream.WriteAsync(row);
-        }
+        return result.Value!.ToResponse();
     }
 
     public override async Task<DepartmentResponse> GetById(
-        GetByIdDepartmentRequest request, 
+        DepartmentGetByIdRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultQuery());
@@ -46,7 +37,7 @@ public sealed class DepartmentService : DepartmentsProto.DepartmentsProtoBase
     }
 
     public override async Task<DepartmentResponse> Create(
-        CreateDepartmentRequest request, 
+        DepartmentCreateRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
@@ -58,7 +49,7 @@ public sealed class DepartmentService : DepartmentsProto.DepartmentsProtoBase
     }
 
     public override async Task<DepartmentResponse> ChangeTitle(
-        ChangeTitleDepartmentRequest request, 
+        DepartmentChangeTitleRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
@@ -70,7 +61,7 @@ public sealed class DepartmentService : DepartmentsProto.DepartmentsProtoBase
     }
 
     public override async Task<DepartmentResponse> ChangeParent(
-        ChangeParentRequest request, 
+        DepartmentChangeParentRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
@@ -81,8 +72,8 @@ public sealed class DepartmentService : DepartmentsProto.DepartmentsProtoBase
         return result.Value!.ToResponse();
     }
 
-    public override async Task<DepartmentResponse> Delete(
-        DeleteDepartmentRequest request, 
+    public override async Task<DepartmentEmptyResponse> Delete(
+        DepartmentDeleteRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
@@ -90,6 +81,6 @@ public sealed class DepartmentService : DepartmentsProto.DepartmentsProtoBase
         {
             throw new RpcException(result.Error.GetStatus());
         }
-        return new DepartmentResponse();
+        return new DepartmentEmptyResponse();
     }
 }

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option csharp_namespace = "Grpc";
+
+package histories;
+
+service HistoriesProto {    
+    rpc GetDepartmentHistory (DepartmentHistoryRequest) returns (MultipleHistoryResponse);
+    rpc GetEmployeeHistory (EmployeeHistoryRequest) returns (MultipleHistoryResponse);
+  }
+
+  message DepartmentHistoryRequest{
+    string department_id = 1;
+  }
+
+  message EmployeeHistoryRequest{
+    string employee_id = 1;
+  }
+
+  message MultipleHistoryResponse{
+      repeated HistoryResponse histories = 1;
+  }
+
+ message HistoryResponse{
+    string id = 1;
+    string employee_id = 2;
+    string department_id = 3;
+    string start_date = 4;
+    string end_date = 5;
+ }
