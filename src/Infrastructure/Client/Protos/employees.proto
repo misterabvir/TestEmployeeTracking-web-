@@ -1,18 +1,19 @@
 syntax = "proto3";
-
+import "Protos/shared.proto";
 option csharp_namespace = "Client";
 
 package emmployees;
 
 service EmployeesProto {    
-    rpc GetAll (EmployeeAllRequest) returns (MultipleEmployeeResponse);
-    rpc GetById (EmployeeByIdRequest) returns (EmployeeResponse);
-    rpc Create (EmployeeCreateRequest) returns (EmployeeResponse);
-    rpc ChangePersonalData (EmployeeChangePersonalDataRequest) returns (EmployeeResponse);
-    rpc ChangeDepartment (EmployeeChangeDepartmentRequest) returns (EmployeeResponse);
-    rpc Delete (EmployeeDeleteRequest) returns (EmployeeEmptyResponse);
+    rpc GetAll (EmployeeAllRequest) returns (EmployeeResultMulitpleResponse);
+    rpc GetById (EmployeeByIdRequest) returns (EmployeeResultSingleResponse);
+    rpc Create (EmployeeCreateRequest) returns (EmployeeResultSingleResponse);
+    rpc ChangePersonalData (EmployeeChangePersonalDataRequest) returns (EmployeeResultSingleResponse);
+    rpc ChangeDepartment (EmployeeChangeDepartmentRequest) returns (EmployeeResultSingleResponse);
+    rpc Delete (EmployeeDeleteRequest) returns (EmployeeResultEmptyResponse);
   }
 
+  //requests
   message EmployeeAllRequest {}
 
   message EmployeeByIdRequest{
@@ -40,17 +41,28 @@ service EmployeesProto {
     string id = 1;
   }
 
-  message MultipleEmployeeResponse{
-      repeated EmployeeResponse Employees = 1;
+  //responses
+  message EmployeeResultSingleResponse{
+      bool isSucces = 1;
+      shared.ErrorModel error = 2;
+      EmployeeModel employee = 3;
   }
 
-  message EmployeeResponse{
+  message EmployeeResultMulitpleResponse{
+      bool isSucces = 1;
+      shared.ErrorModel error = 2;
+      repeated EmployeeModel employees = 3;
+  }
+
+  message EmployeeResultEmptyResponse{
+      bool isSucces = 1;
+      shared.ErrorModel error = 2;
+  }
+
+  // models
+    message EmployeeModel{
     string id = 1;
     string lastname = 2;
     string firstname = 3;
     string department_id = 4;
-  }
-
-  message EmployeeEmptyResponse{
-
   }

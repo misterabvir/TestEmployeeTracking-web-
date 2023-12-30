@@ -1,0 +1,21 @@
+﻿@if (Employee is not null)
+{
+    <div class="block-edit">
+        <h3 class="mt-1">Edit</h3>
+        <label for="title" class="form-label">FirstName</label>
+        <input id="title" class="form-control mb-3" type="text" @bind-value=Employee.FirstName @onblur="OnPersonalDataChanged" />
+        <label for="title" class="form-label">LastName</label>
+        <input id="title" class="form-control mb-3" type="text" @bind-value=Employee.LastName @onblur="OnPersonalDataChanged" />
+        <label for="department" class="form-label">Department</label>
+        <select id="department" class="form-control mb-3" @bind=Employee.DepartmentId @onblur="OnDepartmentChanged">
+            @if (Departments is not null)
+            {
+                @foreach (var item in Departments)
+                {
+                    <option value="@item.Id">@item.Title</option>
+                }
+            }
+        </select>
+    </div>
+}
+

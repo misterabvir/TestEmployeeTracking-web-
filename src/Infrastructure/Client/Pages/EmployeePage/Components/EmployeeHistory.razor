@@ -1,0 +1,24 @@
+﻿@using System.Globalization
+@if(Employee is not null)
+{
+    <h3 class="mt-1">History</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Department</th>
+                <th>First Day</th>
+                <th>Last Day</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var history in Histories?.Where(h => h.EmployeeId == Employee.Id).OrderByDescending(o => DateOnly.Parse(o.StartDate)) ?? Enumerable.Empty<History>())
+            {
+                <tr>
+                    <td>@Departments?.FirstOrDefault(d => d.Id == history.DepartmentId)?.Title</td>
+                    <td>@history.StartDate.GetDateString()</td>
+                    <td>@history.EndDate.GetDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>       
+}

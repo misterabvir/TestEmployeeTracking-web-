@@ -3,7 +3,6 @@ using Persistence;
 using ApplicationCore;
 using TimeService;
 using Entities;
-using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services

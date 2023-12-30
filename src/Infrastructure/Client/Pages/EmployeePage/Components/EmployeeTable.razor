@@ -1,0 +1,35 @@
+﻿@using Client.Pages.Shared.Components
+
+@if (Employees is not null && Departments is not null)
+{
+    <h3 class="mt-1">Emloyees</h3>
+    <ConfirmationDialog Title="Delete Employee" IsShow=@_isDialogShow ConfirmedChanged=@DeleteConfirmed />
+    <table class="table table-fixed">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Department</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Employees)
+            {
+                <tr scope="row">
+                    <td>
+                        <a class="btn btn-nav m-0 p-0" @onclick="(async() => await OnSelectedChanged.InvokeAsync(employee))">
+                            <iconify-icon icon="raphael:employee"></iconify-icon>
+                            @employee.FullName
+                        </a>
+                    </td>
+                    <td>@Departments.FirstOrDefault(d => d.Id == employee.DepartmentId)?.Title</td>
+                    <td>
+                        <a class="p-0 m-0">
+                            <span class="oi oi-circle-x remove" @onclick="()=>DeleteWithConfirm(employee)"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

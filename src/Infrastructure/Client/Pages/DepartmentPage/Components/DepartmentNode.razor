@@ -1,0 +1,45 @@
+﻿@using Client.Pages.Shared.Components
+
+@if (Node != null)
+{
+    <ConfirmationDialog Title="Delete Department" IsShow=@_isConfirmDialogShow ConfirmedChanged=@DeleteConfirmed />
+    <div class="row m-0 p-0">
+        <div class="col-auto">
+            @if (Node.Children != null && Node.Children.Any())
+            {
+                @if (_isExpand)
+                {
+                    <span class="oi oi-minus mark-has-children cursor-pointer bordered" @onclick=@Toggle></span>
+                }
+                else
+                {
+                    <span class="oi oi-plus mark-has-children cursor-pointer bordered" @onclick=@Toggle></span>
+                }
+            }
+            else
+            {
+                <span class="oi oi-empty" @onclick=@Toggle></span>
+            }
+        </div>
+        <div class="col m-0 p-0">
+            <div class="row m-0 p-0">
+                <div class="col">
+                    <a class="btn btn-nav m-0 p-0" @onclick="async ()=> await OnSelectedChanged.InvokeAsync(Node)">@Node.Title</a>
+                </div>
+                <div class="col-auto">
+                    <a @onclick="DeleteWithConfirm">
+                        <span class="oi oi-circle-x remove"></span>
+                    </a>
+                </div>
+            </div>
+
+            @if (Node.Children != null && Node.Children.Any() && _isExpand)
+            {
+                @foreach (var child in Node.Children)
+                {
+                    <DepartmentNode Node=@child OnSelectedChanged="OnSelectedChanged" OnDeleteSelected="OnDeleteSelected" />
+                }
+            }
+        </div>
+    </div>
+}

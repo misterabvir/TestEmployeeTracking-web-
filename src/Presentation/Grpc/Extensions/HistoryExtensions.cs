@@ -1,22 +1,31 @@
 ﻿using ApplicationCore.Histories.Queries.GetDepartmentHistory;
 using ApplicationCore.Histories.Queries.GetEmployeeHistory;
 using ApplicationCore.Histories.Responses;
+using Domain.Common;
+using Grpc.Protos;
 
 namespace Grpc.Extensions;
 
 public static class HistoryExtensions
 {
 
-    public static MultipleHistoryResponse ToResponse(
-      this IEnumerable<HistoryResultResponse> response)
+    public static HistoryResultMultipleResponse ToResponse(
+      this Result<IEnumerable<HistoryResultResponse>> result)
     {
-        MultipleHistoryResponse reply = new();
-        reply.Histories.AddRange(response.Select(h => h.ToResponse()));
+        var reply = new HistoryResultMultipleResponse();
+        if ((reply.IsSucces = result.IsSuccess))
+        {
+            reply.Histories.AddRange(result.Value!.Select(d => d.ToResponse()));
+        }
+        else
+        {
+            reply.Error = result.Error.ToErrorModel();
+        }
         return reply;
     }
 
 
-    public static HistoryResponse ToResponse(
+    public static HistoryModel ToResponse(
         this HistoryResultResponse result)
         => new()
         {
@@ -28,12 +37,12 @@ public static class HistoryExtensions
         };
 
     public static GetDepartmentHistoryQuery ToResultQuery(
-        this DepartmentHistoryRequest request)
+        this HistoryDepartmentRequest request)
         => new(new(
             Guid.Parse(request.DepartmentId)));
 
     public static GetEmployeeHistoryQuery ToResultQuery(
-    this EmployeeHistoryRequest request)
+    this HistoryEmployeeRequest request)
         => new(new(
             Guid.Parse(request.EmployeeId)));
 }

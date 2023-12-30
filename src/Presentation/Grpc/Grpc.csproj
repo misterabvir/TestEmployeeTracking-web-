@@ -7,12 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\departments.proto" />
-    <None Remove="Protos\employees.proto" />
-    <None Remove="Protos\histories.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Protobuf Include="Protos\shared.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\departments.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\employees.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\histories.proto" GrpcServices="Server" />
@@ -22,10 +17,7 @@
     <PackageReference Include="Google.Protobuf" Version="3.25.1" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
     <PackageReference Include="Grpc.AspNetCore.Web" Version="2.59.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.60.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Grpc.Tools" PrivateAssets="All" Version="2.60.0" />
   </ItemGroup>
 
   <ItemGroup>

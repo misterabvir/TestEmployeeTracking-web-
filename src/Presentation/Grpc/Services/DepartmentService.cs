@@ -14,73 +14,59 @@ public sealed class DepartmentService : DepartmentsProto.DepartmentsProtoBase
         _sender = sender;
     }
 
-    public override async Task<MultipleDepartmentResponse> GetAll(DepartmentGetAllRequest request, ServerCallContext context)
+    public override async Task<DepartmentResultMulitpleResponse> GetAll(DepartmentGetAllRequest request, ServerCallContext context)
     {
         var result = await _sender.Send(new GetAllDepartmentsQuery());
-        if (result.IsFailure)
-        {
-            throw new RpcException(result.Error.GetStatus());
-        }
-        return result.Value!.ToResponse();
+        return result.ToResponse();
     }
 
-    public override async Task<DepartmentResponse> GetById(
+    public override async Task<DepartmentResultSingleResponse> GetById(
         DepartmentGetByIdRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultQuery());
-        if (result.IsFailure)
-        {
-            throw new RpcException(result.Error.GetStatus());
-        }
-        return result.Value!.ToResponse();
+        return result.ToResponse();
     }
 
-    public override async Task<DepartmentResponse> Create(
+    public override async Task<DepartmentResultSingleResponse> Create(
         DepartmentCreateRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
-        if (result.IsFailure)
-        {
-            throw new RpcException(result.Error.GetStatus());
-        }
-        return result.Value!.ToResponse();
+        return result.ToResponse();
     }
 
-    public override async Task<DepartmentResponse> ChangeTitle(
+    public override async Task<DepartmentResultSingleResponse> ChangeTitle(
         DepartmentChangeTitleRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
-        if (result.IsFailure)
-        {
-            throw new RpcException(result.Error.GetStatus());
-        }
-        return result.Value!.ToResponse();
+        return result.ToResponse();
     }
 
-    public override async Task<DepartmentResponse> ChangeParent(
+    public override async Task<DepartmentResultSingleResponse> ChangeParent(
         DepartmentChangeParentRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
-        if (result.IsFailure)
-        {
-            throw new RpcException(result.Error.GetStatus());
-        }
-        return result.Value!.ToResponse();
+        return result.ToResponse();
     }
 
-    public override async Task<DepartmentEmptyResponse> Delete(
+    public override async Task<DepartmentResultEmptyResponse> Delete(
         DepartmentDeleteRequest request, 
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
-        if (result.IsFailure)
+
+        return new DepartmentResultEmptyResponse()
         {
-            throw new RpcException(result.Error.GetStatus());
-        }
-        return new DepartmentEmptyResponse();
+            IsSucces = result.IsSuccess,
+            Error = result.Error is null ? new() : new()
+            {
+                Status = result.Error.Status.ToString(),
+                Title = result.Error!.Title,
+                Description = result.Error!.Message
+            }
+        };
     }
 }

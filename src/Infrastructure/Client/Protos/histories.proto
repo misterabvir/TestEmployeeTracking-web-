@@ -1,30 +1,35 @@
 syntax = "proto3";
-
+import "Protos/shared.proto";
 option csharp_namespace = "Client";
 
 package histories;
 
 service HistoriesProto {    
-    rpc GetDepartmentHistory (DepartmentHistoryRequest) returns (MultipleHistoryResponse);
-    rpc GetEmployeeHistory (EmployeeHistoryRequest) returns (MultipleHistoryResponse);
+    rpc GetDepartmentHistory (HistoryDepartmentRequest) returns (HistoryResultMultipleResponse);
+    rpc GetEmployeeHistory (HistoryEmployeeRequest) returns (HistoryResultMultipleResponse);
   }
 
-  message DepartmentHistoryRequest{
+  //requests
+  message HistoryDepartmentRequest{
     string department_id = 1;
   }
 
-  message EmployeeHistoryRequest{
+  message HistoryEmployeeRequest{
     string employee_id = 1;
   }
 
-  message MultipleHistoryResponse{
-      repeated HistoryResponse histories = 1;
+  //responses
+  message HistoryResultMultipleResponse{
+      bool isSucces = 1;
+      shared.ErrorModel error = 2;
+      repeated HistoryModel histories = 3;
   }
 
- message HistoryResponse{
+  //models
+  message HistoryModel{
     string id = 1;
     string employee_id = 2;
     string department_id = 3;
     string start_date = 4;
     string end_date = 5;
- }
+  }

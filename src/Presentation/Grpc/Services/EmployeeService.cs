@@ -14,72 +14,56 @@ public class EmployeeService : EmployeesProto.EmployeesProtoBase
         _sender = sender;
     }
 
-    public override async Task<MultipleEmployeeResponse> GetAll(EmployeeAllRequest request, ServerCallContext context)
+    public override async Task<EmployeeResultMulitpleResponse> GetAll(EmployeeAllRequest request, ServerCallContext context)
     {
         var result = await _sender.Send(new GetAllEmployeeQuery());
-        if (result.IsFailure)
-        {
-            throw new RpcException(result.Error.GetStatus());
-        }
-
-        return result.Value!.ToResponse();
+        return result.ToResponse();
     }
 
-    public override async Task<EmployeeResponse> GetById(
+    public override async Task<EmployeeResultSingleResponse> GetById(
         EmployeeByIdRequest request,
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultQuery());
-        if (result.IsFailure)
-        {
-            throw new RpcException(result.Error.GetStatus());
-        }
-        return result.Value!.ToResponse();
+        return result.ToResponse();
     }
 
-    public override async Task<EmployeeResponse> Create(
+    public override async Task<EmployeeResultSingleResponse> Create(
         EmployeeCreateRequest request,
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
-        if (result.IsFailure)
-        {
-            throw new RpcException(result.Error.GetStatus());
-        }
-        return result.Value!.ToResponse();
+        return result.ToResponse();
     }
 
-    public async override Task<EmployeeResponse> ChangePersonalData(
+    public async override Task<EmployeeResultSingleResponse> ChangePersonalData(
         EmployeeChangePersonalDataRequest request,
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
-        if (result.IsFailure)
-        {
-            throw new RpcException(result.Error.GetStatus());
-        }
-        return result.Value!.ToResponse();
+        return result.ToResponse();
     }
 
-    public async override Task<EmployeeResponse> ChangeDepartment(
+    public async override Task<EmployeeResultSingleResponse> ChangeDepartment(
         EmployeeChangeDepartmentRequest request,
         ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
-        if (result.IsFailure)
-        {
-            throw new RpcException(result.Error.GetStatus());
-        }
-        return result.Value!.ToResponse();
+        return result.ToResponse();
     }
 
-    public async override Task<EmployeeEmptyResponse> Delete(EmployeeDeleteRequest request, ServerCallContext context)
+    public async override Task<EmployeeResultEmptyResponse> Delete(EmployeeDeleteRequest request, ServerCallContext context)
     {
         var result = await _sender.Send(request.ToResultCommand());
-        if (result.IsFailure)
+        return new EmployeeResultEmptyResponse()
         {
-            throw new RpcException(result.Error.GetStatus());
-        }
-        return new EmployeeEmptyResponse();
+            IsSucces = result.IsSuccess,
+            Error = result.IsSuccess ? new() : new()
+            {
+                Status = result.Error.Status.ToString(),
+                Title = result.Error!.Title,
+                Description = result.Error!.Message
+            }
+        };
     }
 }

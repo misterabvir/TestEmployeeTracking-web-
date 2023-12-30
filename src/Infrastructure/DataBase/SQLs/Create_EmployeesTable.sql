@@ -4,5 +4,5 @@ CREATE TABLE Employees(
 	LastName VARCHAR(255) NOT NULL,
 	FirstName VARCHAR(255) NOT NULL,	
 	DepartmentId uniqueidentifier NOT NULL,	
-	CONSTRAINT FK_Department FOREIGN KEY (DepartmentId) REFERENCES Departments(Id) ON DELETE CASCADE
+	CONSTRAINT FK_Department FOREIGN KEY (DepartmentId) REFERENCES Departments(Id) ON DELETE NO ACTION ON UPDATE NO ACTION
 );

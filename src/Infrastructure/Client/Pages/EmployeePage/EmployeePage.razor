@@ -1,0 +1,45 @@
+﻿@page "/employees"
+@using Client.Protos
+@using Client.Services.Abstractions
+@using Client.Pages.EmployeePage.Components
+@using Client.Pages.Shared.Components
+@inject GrpcChannel Channel
+@inject IDepartmentService _departmentService;
+@inject IHistoryService _historyService;
+@inject IEmployeeService _employeeService;
+
+<div class="container">
+
+    @if (_employees is null)
+    {
+        <p>
+            <iconify-icon icon="bx:loader-circle" class="loader"></iconify-icon>
+            <em>Loading...</em>
+        </p>
+    }
+    else
+    {
+        <div class="row shadow-sm p-1">
+            <EmployeeCreate Departments="_departments"
+                            OnCreate=@CreateEmployee />
+        </div>
+        <div class="row shadow-sm p-1">
+            <div class="col-auto">
+                <EmployeeTable Employees="_employees"
+                               Departments="_departments"
+                               OnSelectedChanged="SelectedEmployeeChanged"
+                               OnDeleteSelected="Remove" />
+            </div>
+            <div class="col">
+                <EmployeeEdit Employee="_selectedEmployee"
+                              Departments="_departments"
+                              OnPersonalDataChanged="EmployeePersonalDataChanged"
+                              OnDepartmentChanged="EmployeeDepartmentChanged" />
+            </div>
+        </div>
+        <div class="row shadow-sm p-1">
+            <EmployeeHistory Employee="_selectedEmployee" Departments="_departments" Histories="_history" />
+        </div>
+    }
+</div>
+<ErrorComponent Error=@_error />

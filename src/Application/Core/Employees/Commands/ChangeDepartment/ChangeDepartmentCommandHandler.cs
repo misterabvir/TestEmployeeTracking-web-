@@ -60,13 +60,15 @@ public class ChangeDepartmentCommandHandler : ICommandHandler<ChangeDepartmentCo
             return new EmployeeAlreadyInDepartmentError(employeeId.Value);
         }
 
+        var lastDepartmentId = employee.DepartmentId;
+
         var result = _employeeService.ChangeDepartment(employee, departmentId);
         if (result.IsFailure)
         {
             return new EmployeeUnexpectedError(result.Error);
         }
 
-        History? last = await _historyRepository.Get(employeeId, employee.DepartmentId, cancellationToken);
+        History? last = await _historyRepository.Get(employeeId, lastDepartmentId, cancellationToken);
         if (last is not null)
         {
             var complete = _historyService.Complete(last, _dateTimeService.Today);

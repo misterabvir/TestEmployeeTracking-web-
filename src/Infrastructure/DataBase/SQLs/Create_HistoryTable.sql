@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS History;
 CREATE TABLE History(
 	Id uniqueidentifier NOT NULL PRIMARY KEY,
-	EmployeeId uniqueidentifier NOT NULL,
-	DepartmentId uniqueidentifier NOT NULL,
+	EmployeeId uniqueidentifier NULL,
+	DepartmentId uniqueidentifier NULL,
 	StartDate DATE NOT NULL,
 	EndDate DATE NULL,
-	CONSTRAINT FK_Employee FOREIGN KEY (EmployeeId) REFERENCES Employees(Id) ON DELETE NO ACTION,
-	CONSTRAINT FK_Departments FOREIGN KEY (DepartmentId) REFERENCES Departments(Id) ON DELETE CASCADE
+	CONSTRAINT FK_HistoryEmployeeId FOREIGN KEY (EmployeeId)REFERENCES Employees(Id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT FK_HistoryDepartmentId FOREIGN KEY (DepartmentId)REFERENCES Departments(Id) ON DELETE CASCADE ON UPDATE CASCADE,
 );

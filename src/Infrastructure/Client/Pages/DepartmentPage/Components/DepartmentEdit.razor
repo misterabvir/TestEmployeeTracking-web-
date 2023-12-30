@@ -1,0 +1,19 @@
+﻿@if (Department is not null)
+{
+    <div class="block-edit">
+        <h3 class="mt-2">Edit</h3>
+        <label for="title" class="form-label">Title</label>
+        <input id="title" class="form-control mb-2" type="text" @bind-value=Department.Title @onblur="OnTitleChanged" />
+        <label for="parent" class="form-label">Parent</label>
+        <select id="parent" class="form-control mb-2" @bind=Department.ParentId @onblur="OnParentChanged">
+            <option value="">root</option>
+            @if (Departments is not null)
+            {
+                @foreach (var item in Departments.Where(d => d != Department))
+                {
+                    <option value="@item.Id">@item.Title</option>
+                }
+            }
+        </select>
+    </div>
+}

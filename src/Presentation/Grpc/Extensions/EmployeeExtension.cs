@@ -4,19 +4,44 @@ using ApplicationCore.Employees.Commands.Create;
 using ApplicationCore.Employees.Commands.Delete;
 using ApplicationCore.Employees.Queries.GetById;
 using ApplicationCore.Employees.Responses;
+using Domain.Common;
 
 namespace Grpc.Extensions;
 
 public static class EmployeeExtension
 {
-    public static MultipleEmployeeResponse ToResponse(this IEnumerable<EmployeeResultResponse> response)
+    public static EmployeeResultMulitpleResponse ToResponse(this Result<IEnumerable<EmployeeResultResponse>> result)
     {
-        var reply = new MultipleEmployeeResponse();
-        reply.Employees.AddRange(response.Select(d => d.ToResponse()));
+               
+        var reply = new EmployeeResultMulitpleResponse();
+        if ((reply.IsSucces = result.IsSuccess))
+        {
+            reply.Employees.AddRange(result.Value!.Select(d => d.ToResponse()));
+        }
+        else
+        {
+            reply.Error = result.Error.ToErrorModel();
+        }
         return reply;
     }
 
-    public static EmployeeResponse ToResponse(
+    public static EmployeeResultSingleResponse ToResponse(this Result<EmployeeResultResponse> result)
+    {
+
+        var reply = new EmployeeResultSingleResponse();
+        if ((reply.IsSucces = result.IsSuccess))
+        {
+            reply.Employee = result.Value!.ToResponse();
+        }
+        else
+        {
+            reply.Error = result.Error.ToErrorModel();
+        }
+        return reply;
+    }
+
+
+    public static EmployeeModel ToResponse(
         this EmployeeResultResponse resultResponse)
         => new()
         {

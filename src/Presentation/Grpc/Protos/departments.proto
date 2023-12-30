@@ -1,18 +1,19 @@
 syntax = "proto3";
+import "Protos/shared.proto";
+package departments;
 option csharp_namespace = "Grpc";
 
-package departments;
-
 service DepartmentsProto {    
-    rpc GetAll (DepartmentGetAllRequest) returns (MultipleDepartmentResponse);
-    rpc GetById (DepartmentGetByIdRequest) returns (DepartmentResponse);
-    rpc Create (DepartmentCreateRequest) returns (DepartmentResponse);
-    rpc ChangeTitle (DepartmentChangeTitleRequest) returns (DepartmentResponse);
-    rpc ChangeParent (DepartmentChangeParentRequest) returns (DepartmentResponse);
-    rpc Delete (DepartmentDeleteRequest) returns (DepartmentEmptyResponse);
+    rpc GetAll (DepartmentGetAllRequest) returns (DepartmentResultMulitpleResponse);
+    rpc GetById (DepartmentGetByIdRequest) returns (DepartmentResultSingleResponse);
+    rpc Create (DepartmentCreateRequest) returns (DepartmentResultSingleResponse);
+    rpc ChangeTitle (DepartmentChangeTitleRequest) returns (DepartmentResultSingleResponse);
+    rpc ChangeParent (DepartmentChangeParentRequest) returns (DepartmentResultSingleResponse);
+    rpc Delete (DepartmentDeleteRequest) returns (DepartmentResultEmptyResponse);
   }
 
 
+  //requests
   message DepartmentGetAllRequest {}
 
   message DepartmentGetByIdRequest{
@@ -38,16 +39,28 @@ service DepartmentsProto {
   message DepartmentDeleteRequest{
     string id = 1;
   }
-    
-  message MultipleDepartmentResponse{
-      repeated DepartmentResponse departments = 1;
+
+  //responses
+  message DepartmentResultSingleResponse{
+      bool isSucces = 1;
+      shared.ErrorModel error = 2;
+      DepartmentModel department = 3;
   }
 
-  message DepartmentResponse{
+  message DepartmentResultMulitpleResponse{
+      bool isSucces = 1;
+      shared.ErrorModel error = 2;
+      repeated DepartmentModel departments = 3;
+  }
+
+  message DepartmentResultEmptyResponse{
+      bool isSucces = 1;
+      shared.ErrorModel error = 2;
+  }
+
+  // models
+  message DepartmentModel{
     string id = 1;
     string title = 2;
     string parent_id = 3;
-  }
-
-  message DepartmentEmptyResponse{
   }

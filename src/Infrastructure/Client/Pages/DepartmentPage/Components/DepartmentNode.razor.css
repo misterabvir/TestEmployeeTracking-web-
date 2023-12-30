@@ -1,0 +1,32 @@
+﻿.remove {
+    color: #ccc;
+}
+    .remove:hover {
+        animation-name: btn-remove-color-animation;
+        animation-duration: 500ms;
+        color: red;
+    }
+@keyframes btn-remove-color-animation {
+    from {
+        color: #ccc;
+    }
+
+    to {
+       color: red;
+    }
+}
+
+.mark-has-children{
+    width:0px;
+}
+
+.cursor-pointer{
+    cursor:pointer;
+    
+}
+.bordered {
+    border: 1px dotted #ccc;
+    margin: 0 -15px 0 0;
+    width: 23px;
+    padding: 3px;
+}

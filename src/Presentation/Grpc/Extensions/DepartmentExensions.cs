@@ -4,19 +4,50 @@ using ApplicationCore.Departments.Commands.Delete;
 using ApplicationCore.Departments.Commands.SetParent;
 using ApplicationCore.Departments.Queries.GetById;
 using ApplicationCore.Departments.Responses;
+using Domain.Common;
+using Grpc.Protos;
 
 namespace Grpc.Extensions;
 
 public static class DepartmentExensions
 {
-    public static MultipleDepartmentResponse ToResponse(this IEnumerable<DepartmentResultResponse> response)
+    public static DepartmentResultMulitpleResponse ToResponse(this Result<IEnumerable<DepartmentResultResponse>> result)
     {
-        var reply = new MultipleDepartmentResponse();
-        reply.Departments.AddRange(response.Select(d => d.ToResponse()));
+        var reply = new DepartmentResultMulitpleResponse();
+        if ((reply.IsSucces = result.IsSuccess))
+        {           
+            reply.Departments.AddRange(result.Value!.Select(d => d.ToResponse()));
+        }
+        else
+        {
+            reply.Error = result.Error.ToErrorModel();
+        }
         return reply;
     }
-    
-    public static DepartmentResponse ToResponse(
+
+    public static DepartmentResultSingleResponse ToResponse(this Result<DepartmentResultResponse> result)
+    {
+        var reply = new DepartmentResultSingleResponse();
+        if ((reply.IsSucces = result.IsSuccess))
+        {
+            reply.Department = result.Value!.ToResponse();
+        }
+        else
+        {
+            reply.Error = result.Error.ToErrorModel();
+        }
+        return reply;
+    }
+
+    public static ErrorModel ToErrorModel(this Error error)
+    => new()
+    {
+        Status = error.Status.ToString(),
+        Title = error.Title,
+        Description = error.Message
+    };
+
+    public static DepartmentModel ToResponse(
         this DepartmentResultResponse response)
         => new()
         {
@@ -35,7 +66,7 @@ public static class DepartmentExensions
         => new(new(
               request.Title,
               string.IsNullOrWhiteSpace(request.ParentId) ? null : Guid.Parse(request.ParentId)));
-    
+
     public static ChangeDepartmentTitleCommand ToResultCommand(
         this DepartmentChangeTitleRequest request)
         => new(new(
@@ -52,5 +83,5 @@ public static class DepartmentExensions
         this DepartmentDeleteRequest request)
         => new(new(
             Guid.Parse(request.Id)));
-            
+
 }

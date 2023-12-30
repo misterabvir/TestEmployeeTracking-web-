@@ -1,54 +1,54 @@
 ﻿@page "/departments"
-@using Google.Protobuf.WellKnownTypes
-@using Grpc.Core
+@using Client.Protos
+@using Client.Services.Abstractions
+@using Client.Pages.DepartmentPage.Components
+@using Client.Pages.Shared.Components
 @inject GrpcChannel Channel
+@inject IDepartmentService _departmentService;
+@inject IHistoryService _historyService;
+@inject IEmployeeService _employeeService;
+
 
 <PageTitle>Departments</PageTitle>
-
-<h1>Departments</h1>
-
-
-@if (_departments == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <ul class ="list-group">
-        @foreach(var department in _departments)
-        {
-            <li class="list-group-item">
-               <DepartmentNode Node="department"/>
-           </li>
-        }
-    </ul>
-}
-
-@code {
-    private List<Department>? _departments;
-
-    protected override async Task OnInitializedAsync()
+<div class="container p-1">
+    @if (_departmentsTree is null)
     {
-        var client = new DepartmentsProto.DepartmentsProtoClient(Channel);
-        var result = await client.GetAllAsync(new DepartmentGetAllRequest());
-        _departments = GetTree(result.Departments);
+        <p>
+            <iconify-icon icon="bx:loader-circle" class="loader"></iconify-icon>
+            <em>Loading...</em>
+        </p>
     }
-
-    internal static List<Department> GetTree(IEnumerable<DepartmentResponse> list,
-    string parentId = "")
+    else
     {
-        var currents = list.Where(d => d.ParentId == parentId);
-        List<Department> departments = new();
-        foreach (var item in currents)
-        {
-            departments.Add(new()
+        <div class="row shadow-sm pb-1 mb-2">
+            <DepartmentCreate Departments="_departmentsOptionList"
+                              OnCreateDepartment="CreateDepartment" />
+        </div>
+        <div class="row shadow-sm mb-2">
+            <div class="col-auto">
+                <h3 class="mt-2">Departments</h3>
+                @foreach (var department in _departmentsTree)
                 {
-                    Id = item.Id,
-                    Title = item.Title,
-                    Children = GetTree(list, item.Id)
-                });
-        }
-        return departments;
+                    <DepartmentNode Node=@department
+                                    OnSelectedChanged="SelectedDepartmentChanged"
+                                    OnDeleteSelected="DeleteDepartment" />
+                }
+            </div>
+            <div class="col">
+                <DepartmentEdit Department="_selectedDepartment"
+                                Departments="_departmentsOptionFilteredList"
+                                OnTitleChanged="SelectedDepartmentTitleChanged"
+                                OnParentChanged="SelectedDepartmentParentChanged" />
+            </div>
+        </div>
+        <div class="row shadow-sm mb-2">
+            <DepartmentHistory Department="_selectedDepartment"
+                               Employees="_employees"
+                               Histories="_history" />
+        </div>
+
     }
-    
-}
+</div>
+<ErrorComponent Error=@_error />
+
+
