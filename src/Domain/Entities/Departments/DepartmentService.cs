@@ -4,15 +4,30 @@ using Entities.Departments.ValueObjects;
 
 namespace Entities.Departments;
 
+/// <summary>
+/// Service for changing <see cref="Department"/> entity
+/// </summary>
 internal sealed class DepartmentService : IDepartmentService
 {
-    public Result ChangeParentDepartment(Department department, DepartmentId? parentDepartmentId)
+    /// <summary>
+    /// Sets parent department
+    /// </summary>
+    /// <param name="department"> Department to change </param>
+    /// <param name="parentDepartmentId"> Id of parent department </param>
+    /// <returns> Result of operation </returns>
+    public Result<Department>  ChangeParentDepartment(Department department, DepartmentId? parentDepartmentId)
     {
         department.SetParent(parentDepartmentId);
-        return Result.Success();
+        return Result<Department> .Success(department);
     }
 
-    public Result ChangeTitle(Department department, Title title)
+    /// <summary>
+    /// Changes title
+    /// </summary>
+    /// <param name="department"> Department to change </param>
+    /// <param name="title"> New title </param>
+    /// <returns> Result of operation </returns>
+    public Result<Department>  ChangeTitle(Department department, Title title)
     {
         if(department is null)
         {
@@ -23,6 +38,6 @@ internal sealed class DepartmentService : IDepartmentService
             return DepartmentDomainErrors.TitleIsNull;
         }
         department.ChangeTitle(title);
-        return Result.Success();
+        return Result<Department> .Success(department);
     }
 }

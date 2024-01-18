@@ -1,19 +1,62 @@
-﻿@if (Department is not null)
-{
-    <div class="block-edit">
+﻿<div class="block-edit container">
+    <div class="row">
         <h3 class="mt-2">Edit</h3>
-        <label for="title" class="form-label">Title</label>
-        <input id="title" class="form-control mb-2" type="text" @bind-value=Department.Title @onblur="OnTitleChanged" />
-        <label for="parent" class="form-label">Parent</label>
-        <select id="parent" class="form-control mb-2" @bind=Department.ParentId @onblur="OnParentChanged">
-            <option value="">root</option>
-            @if (Departments is not null)
-            {
-                @foreach (var item in Departments.Where(d => d != Department))
-                {
-                    <option value="@item.Id">@item.Title</option>
-                }
-            }
-        </select>
     </div>
-}
+
+    <div class="row">
+        <div class="col">
+            <label for="title" class="form-label">Title</label>
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            @if (Department is not null)
+            {
+                <input id="title" class="form-control mb-2" type="text" @bind-value=Department.Title />
+            }
+            else
+            {
+                <input id="title" class="form-control mb-2" type="text" disabled="disabled" />
+            }
+        </div>
+        <div class="col-2">
+            <button class="btn btn-primary" @onclick=@OnTitleChanged disabled=@IsDisabled>Update</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label for="parent" class="form-label">Parent</label>
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            @if (Department is not null)
+            {
+                <select id="parent" class="form-control mb-2" @bind=Department.ParentId>
+                    <option value="">root</option>
+                    @if (Departments is not null)
+                    {
+                        @foreach (var item in Departments.Where(d => d != Department))
+                        {
+                            <option value="@item.Id">@item.Title</option>
+                        }
+                    }
+                </select>
+            }
+            else
+            {
+                <select id="parent" class="form-control mb-2" disabled="disabled">
+                </select>
+            }
+
+        </div>
+        <div class="col-2">
+            <button class="btn btn-primary" @onclick=@OnParentChanged disabled=@IsDisabled>Update</button>
+        </div>
+    </div>
+</div>

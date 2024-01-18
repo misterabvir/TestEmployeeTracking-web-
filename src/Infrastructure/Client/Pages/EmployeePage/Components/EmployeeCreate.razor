@@ -1,12 +1,21 @@
-﻿<div class="row mb-2">
+﻿<div class="row">
+    <h3 class="mt-1">Create</h3>
+</div>
+<div class="row mb-2">
     <div class="col-sm-6 col-md-3">
-        <input class="form-control" type="text" @bind-value=_employee.FirstName placeholder="FirstName" />
+        <div>
+            <label for="firstname" class="form-label mt-2">FirstName</label>
+            <input id="firstname" class="form-control" type="text" @bind-value=_employee.FirstName placeholder="FirstName" />
+        </div>
+        
     </div>
     <div class="col-sm-6 col-md-3">
-        <input class="form-control" type="text" @bind-value=_employee.LastName placeholder="LastName" />
+        <label for="lastname" class="form-label mt-2">LastName</label>
+        <input id="lastname" class="form-control" type="text" @bind-value=_employee.LastName placeholder="LastName" />
     </div>
     <div class="col-sm-6 col-md-3">
-        <select class="form-control" @bind=_employee.DepartmentId>
+        <label for="department" class="form-label mt-2">Department</label>
+        <select id="department" class="form-control" @bind=_employee.DepartmentId>
             <option value="">not selected</option>
             @if (Departments is not null)
             {
@@ -17,7 +26,7 @@
             }
         </select>
     </div>
-    <div class="col-sm-6 col-md-auto">
+    <div class="col-sm-6 col-md-auto pt-4 mt-3">
         <button class="btn btn-primary" @onclick=@CreateHandler disabled="@IsDisabled">Create</button>
     </div>
 </div>

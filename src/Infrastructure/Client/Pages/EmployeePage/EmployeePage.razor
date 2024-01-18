@@ -1,13 +1,10 @@
 ﻿@page "/employees"
-@using Client.Protos
-@using Client.Services.Abstractions
-@using Client.Pages.EmployeePage.Components
-@using Client.Pages.Shared.Components
 @inject GrpcChannel Channel
 @inject IDepartmentService _departmentService;
 @inject IHistoryService _historyService;
 @inject IEmployeeService _employeeService;
 
+<PageTitle>Employees</PageTitle>
 <div class="container">
 
     @if (_employees is null)
@@ -19,25 +16,27 @@
     }
     else
     {
-        <div class="row shadow-sm p-1">
+        <div class="container shadow-sm border rounded p-3 mb-4">
             <EmployeeCreate Departments="_departments"
                             OnCreate=@CreateEmployee />
         </div>
-        <div class="row shadow-sm p-1">
-            <div class="col-auto">
-                <EmployeeTable Employees="_employees"
-                               Departments="_departments"
-                               OnSelectedChanged="SelectedEmployeeChanged"
-                               OnDeleteSelected="Remove" />
-            </div>
-            <div class="col">
-                <EmployeeEdit Employee="_selectedEmployee"
-                              Departments="_departments"
-                              OnPersonalDataChanged="EmployeePersonalDataChanged"
-                              OnDepartmentChanged="EmployeeDepartmentChanged" />
+        <div class="container shadow-sm border rounded p-3 mb-4">
+            <div class="row">
+                <div class="col-auto">
+                    <EmployeeTable Employees="_employees"
+                                   Departments="_departments"
+                                   OnSelectedChanged="SelectedEmployeeChanged"
+                                   OnDeleteSelected="Remove" />
+                </div>
+                <div class="col">
+                    <EmployeeEdit Employee="_selectedEmployee"
+                                  Departments="_departments"
+                                  OnPersonalDataChanged="EmployeePersonalDataChanged"
+                                  OnDepartmentChanged="EmployeeDepartmentChanged" />
+                </div>
             </div>
         </div>
-        <div class="row shadow-sm p-1">
+        <div class="container shadow-sm border rounded p-3">
             <EmployeeHistory Employee="_selectedEmployee" Departments="_departments" Histories="_history" />
         </div>
     }

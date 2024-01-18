@@ -1,6 +1,4 @@
-﻿@using Client.Pages.Shared.Components
-
-@if (Employees is not null && Departments is not null)
+﻿@if (Employees is not null && Departments is not null)
 {
     <h3 class="mt-1">Emloyees</h3>
     <ConfirmationDialog Title="Delete Employee" IsShow=@_isDialogShow ConfirmedChanged=@DeleteConfirmed />

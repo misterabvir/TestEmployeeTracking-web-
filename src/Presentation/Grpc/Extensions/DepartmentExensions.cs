@@ -5,7 +5,6 @@ using ApplicationCore.Departments.Commands.SetParent;
 using ApplicationCore.Departments.Queries.GetById;
 using ApplicationCore.Departments.Responses;
 using Domain.Common;
-using Grpc.Protos;
 
 namespace Grpc.Extensions;
 
@@ -38,14 +37,6 @@ public static class DepartmentExensions
         }
         return reply;
     }
-
-    public static ErrorModel ToErrorModel(this Error error)
-    => new()
-    {
-        Status = error.Status.ToString(),
-        Title = error.Title,
-        Description = error.Message
-    };
 
     public static DepartmentModel ToResponse(
         this DepartmentResultResponse response)

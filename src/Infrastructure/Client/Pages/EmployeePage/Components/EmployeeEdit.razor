@@ -1,21 +1,70 @@
-﻿@if (Employee is not null)
-{
-    <div class="block-edit">
+﻿<div class="block-edit container">
+    <div class="row">
         <h3 class="mt-1">Edit</h3>
-        <label for="title" class="form-label">FirstName</label>
-        <input id="title" class="form-control mb-3" type="text" @bind-value=Employee.FirstName @onblur="OnPersonalDataChanged" />
-        <label for="title" class="form-label">LastName</label>
-        <input id="title" class="form-control mb-3" type="text" @bind-value=Employee.LastName @onblur="OnPersonalDataChanged" />
-        <label for="department" class="form-label">Department</label>
-        <select id="department" class="form-control mb-3" @bind=Employee.DepartmentId @onblur="OnDepartmentChanged">
-            @if (Departments is not null)
-            {
-                @foreach (var item in Departments)
-                {
-                    <option value="@item.Id">@item.Title</option>
-                }
-            }
-        </select>
     </div>
-}
+
+    <div class="row">
+        <div class="col-4"><label for="firstname" class="form-label">FirstName</label></div>
+        <div class="col-4"><label for="lastname" class="form-label">LastName</label></div>
+        <div class="col"></div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-4">
+            @if (Employee is not null)
+            {
+                <input id="firstname" class="form-control" type="text" @bind-value=Employee.FirstName />
+            }
+            else
+            {
+                <input id="firstname" class="form-control" type="text" disabled="disabled" />
+            }
+        </div>
+        <div class="col-4">
+            @if (Employee is not null)
+            {
+                <input id="lastname" class="form-control" type="text" @bind-value="Employee.LastName"/>
+            }
+            else
+            {
+                <input id="lastname" class="form-control" type="text" disabled="disabled" />
+            }
+
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" @onclick="OnPersonalDataChanged" disabled=@isDisable>Update</button>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-8"><label for="department" class="form-label">Department</label></div>
+        <div class="col"></div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            @if (Employee is not null)
+            {
+                <select id="department" class="form-control mb-3" @bind=Employee.DepartmentId>
+                    @if (Departments is not null)
+                    {
+                        @foreach (var item in Departments)
+                        {
+                            <option value="@item.Id">@item.Title</option>
+                        }
+                    }
+                </select>
+            }
+            else
+            {
+                <select id="department" class="form-control mb-3" disabled="disabled"></select>
+            }
+        </div>
+        <div class="col">
+            <button class="btn btn-primary" @onclick="OnDepartmentChanged" disabled=@isDisable>Update</button>
+        </div>
+    </div>
+
+</div>
+
 

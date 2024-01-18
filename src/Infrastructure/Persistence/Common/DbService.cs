@@ -11,12 +11,16 @@ internal class DbService
     {
         _connectionString = connectionString;
         SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
-        SqlMapper.AddTypeHandler(new TitleTypeNahdler());
-        SqlMapper.AddTypeHandler(new FirstNameTypeNahdler());
-        SqlMapper.AddTypeHandler(new LastNameTypeNahdler());
-        SqlMapper.AddTypeHandler(new EmployeeIdTypeNahdler());
-        SqlMapper.AddTypeHandler(new DepartmentIdTypeNahdler());
-        SqlMapper.AddTypeHandler(new HistoryIdTypeNahdler());
+        SqlMapper.AddTypeHandler(new TitleTypeHandler());
+        SqlMapper.AddTypeHandler(new FirstNameTypeHandler());
+        SqlMapper.AddTypeHandler(new LastNameTypeHandler());
+        SqlMapper.AddTypeHandler(new EmployeeIdTypeHandler());
+        SqlMapper.AddTypeHandler(new DepartmentIdTypeHandler());
+        SqlMapper.AddTypeHandler(new HistoryIdTypeHandler());
+        SqlMapper.AddTypeHandler(new EmailHandler());
+        SqlMapper.AddTypeHandler(new PasswordHandler());
+        SqlMapper.AddTypeHandler(new SaltHandler());       
+        SqlMapper.AddTypeHandler(new UserIdHandler());       
     }
 
     public async Task ExecuteAsync(CommandDefinition command)

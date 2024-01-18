@@ -5,6 +5,7 @@ namespace Client.Pages.EmployeePage.Components
 {
     public partial class EmployeeEdit
     {
+        private bool isDisable => Employee is null;
         [Parameter]
         public Employee? Employee { get; set; }
         [Parameter]

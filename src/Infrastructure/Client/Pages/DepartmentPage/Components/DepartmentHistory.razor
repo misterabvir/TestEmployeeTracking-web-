@@ -1,23 +1,25 @@
-﻿@if (Department is not null)
-{
-    <h3>History</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Employee</th>
-                <th>First Day</th>
-                <th>Last Day</th>
-            </tr>
-        </thead>
-        <tbody>
+﻿<h3>History</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>First Day</th>
+            <th>Last Day</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Department is not null)
+        {
+
             @foreach (var history in _histories.OrderByDescending(o => DateOnly.Parse(o.StartDate)) ?? Enumerable.Empty<History>())
             {
                 <tr>
-                <td>@Employees?.FirstOrDefault(e => e.Id == history.EmployeeId)?.FullName</td>
+                    <td>@Employees?.FirstOrDefault(e => e.Id == history.EmployeeId)?.FullName</td>
                     <td>@history.StartDate.GetDateString()</td>
                     <td>@history.EndDate.GetDateString()</td>
                 </tr>
             }
-        </tbody>
-    </table>
-}
+
+        }
+    </tbody>
+</table>

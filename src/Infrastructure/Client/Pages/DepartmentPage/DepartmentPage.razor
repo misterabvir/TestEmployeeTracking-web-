@@ -1,8 +1,4 @@
 ﻿@page "/departments"
-@using Client.Protos
-@using Client.Services.Abstractions
-@using Client.Pages.DepartmentPage.Components
-@using Client.Pages.Shared.Components
 @inject GrpcChannel Channel
 @inject IDepartmentService _departmentService;
 @inject IHistoryService _historyService;
@@ -20,28 +16,30 @@
     }
     else
     {
-        <div class="row shadow-sm pb-1 mb-2">
+        <div class="container shadow-sm border rounded p-3 mb-4">
             <DepartmentCreate Departments="_departmentsOptionList"
                               OnCreateDepartment="CreateDepartment" />
         </div>
-        <div class="row shadow-sm mb-2">
-            <div class="col-auto">
-                <h3 class="mt-2">Departments</h3>
-                @foreach (var department in _departmentsTree)
-                {
-                    <DepartmentNode Node=@department
-                                    OnSelectedChanged="SelectedDepartmentChanged"
-                                    OnDeleteSelected="DeleteDepartment" />
-                }
-            </div>
-            <div class="col">
-                <DepartmentEdit Department="_selectedDepartment"
-                                Departments="_departmentsOptionFilteredList"
-                                OnTitleChanged="SelectedDepartmentTitleChanged"
-                                OnParentChanged="SelectedDepartmentParentChanged" />
+        <div class="container shadow-sm border rounded p-3 mb-4">
+            <div class="row">
+                <div class="col-auto">
+                    <h3>Departments</h3>
+                    @foreach (var department in _departmentsTree)
+                    {
+                        <DepartmentNode Node=@department
+                                        OnSelectedChanged="SelectedDepartmentChanged"
+                                        OnDeleteSelected="DeleteDepartment" />
+                    }
+                </div>
+                <div class="col">
+                    <DepartmentEdit Department="_selectedDepartment"
+                                    Departments="_departmentsOptionFilteredList"
+                                    OnTitleChanged="SelectedDepartmentTitleChanged"
+                                    OnParentChanged="SelectedDepartmentParentChanged" />
+                </div>
             </div>
         </div>
-        <div class="row shadow-sm mb-2">
+        <div class="container shadow-sm border rounded p-3 mb-4">
             <DepartmentHistory Department="_selectedDepartment"
                                Employees="_employees"
                                Histories="_history" />
