@@ -1,0 +1,25 @@
+﻿@page "/login"
+
+@layout LoginLayout
+@inject AuthenticationStateProvider _provider
+@inject AuthorizeApi _authorizeApi
+@inject NavigationManager _navigation
+
+<div class="row m-2">
+    <div class="col-auto">
+        <input type="text" class="form-control" placeholder="email@example.com" @bind-value="_email">
+    </div>
+    <div class="col-auto">
+        <input type="password" class="form-control" placeholder="Password" @bind-value="_password">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary" disabled=@isDisabled @onclick=OnLogin>SignIn</button>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary" disabled=@isDisabled @onclick=OnRegister>Register</button>
+    </div>
+</div>
+
+<ErrorComponent Error=@_error />
+
+

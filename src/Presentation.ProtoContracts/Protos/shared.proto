@@ -1,0 +1,12 @@
+syntax = "proto3";
+package shared;
+option csharp_namespace = "ProtoContracts";
+
+service Shared{}
+  //models
+  message ErrorModel{
+      string status = 1;
+      string title = 2;
+      string description = 3;
+  }
+

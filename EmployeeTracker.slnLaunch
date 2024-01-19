@@ -3,12 +3,12 @@
     "Name": "New Profile",
     "Projects": [
       {
-        "Name": "src\\Presentation\\Grpc\\Grpc.csproj",
+        "Name": "src\\Infrastructure.Client\\Infrastructure.Client.csproj",
         "Action": "Start",
         "DebugTarget": "https"
       },
       {
-        "Name": "src\\Infrastructure\\Client\\Client.csproj",
+        "Name": "src\\Presentation.Grpc\\Presentation.Grpc.csproj",
         "Action": "Start",
         "DebugTarget": "https"
       }

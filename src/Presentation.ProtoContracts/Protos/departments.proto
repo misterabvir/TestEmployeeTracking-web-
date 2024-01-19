@@ -1,0 +1,66 @@
+syntax = "proto3";
+import "Protos/shared.proto";
+package departments;
+option csharp_namespace = "ProtoContracts";
+
+service DepartmentsProto {    
+    rpc GetAll (DepartmentGetAllRequest) returns (DepartmentResultMulitpleResponse);
+    rpc GetById (DepartmentGetByIdRequest) returns (DepartmentResultSingleResponse);
+    rpc Create (DepartmentCreateRequest) returns (DepartmentResultSingleResponse);
+    rpc ChangeTitle (DepartmentChangeTitleRequest) returns (DepartmentResultSingleResponse);
+    rpc ChangeParent (DepartmentChangeParentRequest) returns (DepartmentResultSingleResponse);
+    rpc Delete (DepartmentDeleteRequest) returns (DepartmentResultEmptyResponse);
+  }
+
+
+  //requests
+  message DepartmentGetAllRequest {}
+
+  message DepartmentGetByIdRequest{
+    string id = 1;
+  }
+
+  message DepartmentCreateRequest{
+      string id = 1;
+      string title = 2;
+      string parent_id = 3;
+  }
+
+  message DepartmentChangeTitleRequest{
+      string id = 1;
+      string new_title = 2;
+  }
+
+  message DepartmentChangeParentRequest{
+    string id = 1;
+    string new_parent_id = 2;
+  } 
+
+  message DepartmentDeleteRequest{
+    string id = 1;
+  }
+
+  //responses
+  message DepartmentResultSingleResponse{
+      bool isSucces = 1;
+      shared.ErrorModel error = 2;
+      DepartmentModel department = 3;
+  }
+
+  message DepartmentResultMulitpleResponse{
+      bool isSucces = 1;
+      shared.ErrorModel error = 2;
+      repeated DepartmentModel departments = 3;
+  }
+
+  message DepartmentResultEmptyResponse{
+      bool isSucces = 1;
+      shared.ErrorModel error = 2;
+  }
+
+  // models
+  message DepartmentModel{
+    string id = 1;
+    string title = 2;
+    string parent_id = 3;
+  }

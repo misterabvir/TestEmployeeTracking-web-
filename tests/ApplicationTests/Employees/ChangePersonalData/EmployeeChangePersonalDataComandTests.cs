@@ -10,6 +10,7 @@ using NSubstitute;
 using FluentAssertions;
 using ApplicationCore.Employees.Responses;
 using Core;
+using Entities.Abstractions.Shared;
 
 namespace ApplicationTests.Employees.ChangePersonalData;
 

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.25.1" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
+    <PackageReference Include="Grpc.AspNetCore.Web" Version="2.59.0" />
+    <PackageReference Include="Grpc.Tools" PrivateAssets="All" Version="2.60.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Core\Application.Core.csproj" />
+    <ProjectReference Include="..\Infrastructure.Client\Infrastructure.Client.csproj" />
+    <ProjectReference Include="..\Infrastructure.DataBase\Infrastructure.Database.sqlproj" />
+    <ProjectReference Include="..\Infrastructure.EncryptService\Infrastructure.EncryptService.csproj" />
+    <ProjectReference Include="..\Infrastructure.Persistence\Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\Infrastructure.TimeService\Infrastructure.TimeService.csproj" />
+    <ProjectReference Include="..\Infrastructure.TokenService\Infrastructure.TokenService.csproj" />
+    <ProjectReference Include="..\Presentation.ProtoContracts\Presentation.ProtoContracts.csproj" />
+  </ItemGroup>
+</Project>

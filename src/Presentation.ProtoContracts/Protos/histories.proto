@@ -1,0 +1,34 @@
+syntax = "proto3";
+package histories;
+import "Protos/shared.proto";
+option csharp_namespace = "ProtoContracts";
+
+service HistoriesProto {    
+    rpc GetDepartmentHistory (HistoryDepartmentRequest) returns (HistoryResultMultipleResponse);
+    rpc GetEmployeeHistory (HistoryEmployeeRequest) returns (HistoryResultMultipleResponse);
+  }
+
+  //requests
+  message HistoryDepartmentRequest{
+    string department_id = 1;
+  }
+
+  message HistoryEmployeeRequest{
+    string employee_id = 1;
+  }
+
+  //responses
+  message HistoryResultMultipleResponse{
+      bool isSucces = 1;
+      shared.ErrorModel error = 2;
+      repeated HistoryModel histories = 3;
+  }
+
+  //models
+  message HistoryModel{
+    string id = 1;
+    string employee_id = 2;
+    string department_id = 3;
+    string start_date = 4;
+    string end_date = 5;
+  }

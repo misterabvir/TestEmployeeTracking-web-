@@ -1,0 +1,44 @@
+﻿@inject GrpcChannel Channel
+@inject IDepartmentService _departmentService;
+@inject IEmployeeService _employeeService;
+@inject IHistoryService _historyService;
+
+
+
+
+@if (Employees is null)
+{
+    <p>
+        <iconify-icon icon="bx:loader-circle" class="loader"></iconify-icon>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <div class="container shadow-sm border rounded p-3 mb-4">
+        <EmployeeCreate Departments="Departments"
+                        OnCreate=@CreateEmployee />
+    </div>
+    <div class="container shadow-sm border rounded p-3 mb-4">
+        <div class="row">
+            <div class="col-auto">
+                <EmployeeTable Employees="Employees"
+                               Departments="Departments"
+                               OnSelectedChanged="SelectedEmployeeChanged"
+                               OnDeleteSelected="Remove" />
+            </div>
+            <div class="col border-start border-1">
+                <EmployeeEdit Employee="_selectedEmployee"
+                              Departments="Departments"
+                              OnPersonalDataChanged="EmployeePersonalDataChanged"
+                              OnDepartmentChanged="EmployeeDepartmentChanged" />
+            </div>
+        </div>
+    </div>
+    <div class="container shadow-sm border rounded p-3">
+        <EmployeeHistory Employee="_selectedEmployee" Departments="Departments" Histories="_history" />
+    </div>
+}
+
+<ErrorComponent Error=@_error />
+

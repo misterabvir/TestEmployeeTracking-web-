@@ -1,0 +1,25 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager manager;
+@inject AuthenticationStateProvider _provider;
+@inject AuthorizeApi _authorizeApi;
+
+<AuthorizeView>
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+
+        <main>
+            <div class="top-row">
+                <div class="col-auto me-4"><strong>@_name</strong></div>
+                <div class="col-auto"><button class="btn btn-success" @onclick="OnLogout">Logout</button></div>
+            </div>
+
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    </div>
+</AuthorizeView>
+
+

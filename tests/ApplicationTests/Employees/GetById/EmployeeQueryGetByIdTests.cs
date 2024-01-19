@@ -4,6 +4,7 @@ using ApplicationCore.Employees.Responses;
 using Core;
 using Domain.Common;
 using Entities.Abstractions;
+using Entities.Abstractions.Shared;
 using Entities.Departments.ValueObjects;
 using Entities.Employees;
 using Entities.Employees.ValueObjects;

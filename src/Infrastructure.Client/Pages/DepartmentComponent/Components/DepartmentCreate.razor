@@ -1,0 +1,25 @@
+﻿<div class="row">
+    <h3 class="mt-1">Add New Department</h3>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-5">
+        <label for="title" class="form-label mt-2">FirstName</label>
+        <input id="title" class="form-control" type="text" @bind-value=_department.Title placeholder="Title" />
+    </div>
+    <div class="col-sm-12 col-md-5">
+        <label for="parent" class="form-label mt-2">FirstName</label>
+        <select id="parent" class="form-control" @bind=_department.ParentId>
+            <option value="">parent not selected</option>
+            @if (Departments is not null)
+            {
+                @foreach (var item in Departments)
+                {
+                    <option value="@item.Id">@item.Title</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="col pt-4 mt-3">
+        <button class="btn btn-primary" @onclick="CreateHandler" disabled="@IsDisabled">Create</button>
+    </div>
+</div>

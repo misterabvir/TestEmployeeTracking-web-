@@ -1,0 +1,14 @@
+﻿
+<div class="container px-4 position-absolute end-0 bottom-0 w-50">
+    @if (IsShow)
+    {
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-close" data-dismiss="alert" aria-label="Close" @onclick="HideError">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>@Error?.Title</h3>
+            <p>@Error?.Description</p>
+        </div>
+    }
+</div>
+
