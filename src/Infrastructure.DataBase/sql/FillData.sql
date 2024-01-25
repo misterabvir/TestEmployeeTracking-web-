@@ -1,6 +1,23 @@
-﻿
+﻿DELETE FROM dbo.History;
+DELETE FROM dbo.Employees;
+DELETE FROM dbo.Departments;
+
+
+INSERT INTO Departments (Id, ParentId, Title) VALUES (NEWID(), NULL, 'IT Department');
+INSERT INTO Departments (Id, ParentId, Title) VALUES (NEWID(), (SELECT Id FROM Departments WHERE Title = 'IT Department'), 'Software Development');
+INSERT INTO Departments (Id, ParentId, Title) VALUES (NEWID(), (SELECT Id FROM Departments WHERE Title = 'Software Development'), 'Backend Development');
+INSERT INTO Departments (Id, ParentId, Title) VALUES (NEWID(), (SELECT Id FROM Departments WHERE Title = 'Software Development'), 'Frontend Development');
+INSERT INTO Departments (Id, ParentId, Title) VALUES (NEWID(), (SELECT Id FROM Departments WHERE Title = 'Software Development'), 'QA & Testing');
+INSERT INTO Departments (Id, ParentId, Title) VALUES (NEWID(), (SELECT Id FROM Departments WHERE Title = 'IT Department'), 'Infrastructure');
+INSERT INTO Departments (Id, ParentId, Title) VALUES (NEWID(), (SELECT Id FROM Departments WHERE Title = 'Infrastructure'), 'Network Administration');
+INSERT INTO Departments (Id, ParentId, Title) VALUES (NEWID(), (SELECT Id FROM Departments WHERE Title = 'Infrastructure'), 'Systems Administration');
+INSERT INTO Departments (Id, ParentId, Title) VALUES (NEWID(), (SELECT Id FROM Departments WHERE Title = 'IT Department'), 'Data Science & Analytics');
+INSERT INTO Departments (Id, ParentId, Title) VALUES (NEWID(), (SELECT Id FROM Departments WHERE Title = 'Data Science & Analytics'), 'Data Engineering');
+INSERT INTO Departments (Id, ParentId, Title) VALUES (NEWID(), (SELECT Id FROM Departments WHERE Title = 'Data Science & Analytics'), 'Data Analysis');
+INSERT INTO Departments (Id, ParentId, Title) VALUES (NEWID(), (SELECT Id FROM Departments WHERE Title = 'IT Department'), 'IT Support');
+
  
- EXEC UpdateEmployeeDepartment 
+ EXEC FillEmployeeDepartment 
     @DepartmentTitle = 'IT Support', 
     @FirstName = 'Sophia', 
     @LastName = 'Brown', 

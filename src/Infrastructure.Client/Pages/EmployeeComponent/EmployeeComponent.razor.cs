@@ -36,7 +36,7 @@ namespace Infrastructure.Client.Pages.EmployeeComponent
                 employee.LastName,
                 employee.FirstName,
                 employee.DepartmentId);
-            if (result.IsSucces)
+            if (result.IsSucces && SelectedDepartment is not null && SelectedDepartment.Id == result.Employee.DepartmentId )
             {          
                 Employees?.Add(employee);
             }
@@ -49,7 +49,7 @@ namespace Infrastructure.Client.Pages.EmployeeComponent
         internal async Task Remove(Employee employee)
         {
             var result = await _employeeService.Delete(employee.Id);
-            if (result.IsSucces)
+            if (result.IsSucces && SelectedDepartment is not null && SelectedDepartment.Id == employee.DepartmentId)
             {
                 Employees?.Remove(employee);
             }

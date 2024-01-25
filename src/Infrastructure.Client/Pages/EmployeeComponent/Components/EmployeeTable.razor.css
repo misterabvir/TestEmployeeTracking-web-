@@ -15,11 +15,15 @@
         width: 100%;
     }
 
-    .table-fixed tbody {
-        max-height: 200px;
-        overflow-y: auto;
-        width: 100%;
-    }
+        .table-fixed thead tr:nth-child(3) {
+            min-width: 20px;
+        }
+
+        .table-fixed tbody {
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+        }
 
     .table-fixed thead, .table-fixed tbody, .table-fixed tr {
         display: block;
@@ -37,15 +41,18 @@
 
         .table-fixed tbody td:nth-child(1), .table-fixed thead th:nth-child(1) {
             width: 200px;
+            text-align: start;
         }
 
         .table-fixed tbody td:nth-child(2), .table-fixed thead th:nth-child(2) {
-            width: 250px;
+            width: 200px;
+            text-align: start;
         }
 
         .table-fixed tbody td:nth-child(3), .table-fixed thead th:nth-child(3) {
             width: 30px;
             text-align: center;
+            text-align:start;
         }
 
 .remove {

@@ -75,6 +75,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="sql\FillData.sql" />
+    <None Include="EmployeeDb.ldf" />
+    <None Include="EmployeeDb.mdf" />
   </ItemGroup>
   <Import Project="$(NETCoreTargetsPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" Condition="'$(NetCoreBuild)' == 'true'" />
   <Target Name="BeforeBuild">
